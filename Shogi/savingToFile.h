@@ -11,6 +11,6 @@ void saveBoard(ofstream &writer, int turn, char**b) {
 	}
 
 }
-void savePrison() {
+void saveHand() {
 
 }

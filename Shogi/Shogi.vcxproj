@@ -130,10 +130,10 @@
     <ClCompile Include="Shogi.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="loadPrison.txt" />
+    <Text Include="loadHand.txt" />
     <Text Include="newBoard.txt" />
     <Text Include="loadBoard.txt" />
-    <Text Include="newPrison.txt" />
+    <Text Include="newHand.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="auxiliary.h" />
@@ -141,6 +141,7 @@
     <ClInclude Include="check.h" />
     <ClInclude Include="directionalLegality.h" />
     <ClInclude Include="highlightingFunctions.h" />
+    <ClInclude Include="promotionFunctions.h" />
     <ClInclude Include="savingToFile.h" />
     <ClInclude Include="pieceLegality.h" />
     <ClInclude Include="turnFunctions.h" />

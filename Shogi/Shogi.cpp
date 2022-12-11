@@ -14,6 +14,7 @@
 #include "turnFunctions.h"
 #include "basicLegalityFunctions.h"
 #include "check.h"
+#include "promotionFunctions.h"
 
 void loadBoard(ifstream &rdr, char** &B, int &turn) {
     rdr >> turn;
@@ -66,7 +67,7 @@ void userInput(coordinate &position) {
     position.ri = r/=2;
     position.ci = c/=4;
 }
-void init(ifstream & newB, ifstream& newP, ifstream& loadP, ifstream& loadB, string names[], char** &board, char** &prison, int &turn) {
+void init(ifstream & newB, ifstream& newP, ifstream& loadP, ifstream& loadB, string names[], char** &board, char** &hand, int &turn) {
     cout << "Welcome to Shogi, black goes first."; nl(1);
     cout << "Piece Symbols (black is lowercase);"; nl(2);
     cout << "Promoted Bishop (Horse) = H"; nl(1);
@@ -117,13 +118,13 @@ int main()
 {
     ifstream newBoardReader("newBoard.txt");
     ifstream loadBoardReader("loadBoard.txt");
-    ifstream newPrisonReader("newPrison.txt");
-    ifstream loadPrisonReader("loadPrison.txt");//
+    ifstream newHandReader("newHand.txt");
+    ifstream loadHandReader("loadHand.txt");//
     ofstream boardWriter("loadBoard.txt");
-    ofstream prisonWriter("loadPrison.txt");
+    ofstream HandWriter("loadHand.txt");
     
     char** board;
-    char** prison;
+    char** hand;
     int turn = -1;
     string pNames[2];
     board = new char* [size+1];
@@ -133,7 +134,7 @@ int main()
 
 
     ///*
-    init(newBoardReader, newPrisonReader, loadPrisonReader, loadBoardReader, pNames, board, prison, turn);
+    init(newBoardReader, newHandReader, loadHandReader, loadBoardReader, pNames, board, hand, turn);
 
     while (true) { //while(!checkmate){}
         coordinate sc, dc;
@@ -163,7 +164,7 @@ int main()
         printBoard(board);
         turnChange(turn);
         //saveBoard(boardWriter, turn, board);
-        savePrison(); //WIP
+        saveHand(); //WIP
         //deletion
         for (int i = 0; i < size; i++) {
             delete[] bMap[i];
