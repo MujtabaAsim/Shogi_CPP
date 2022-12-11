@@ -1,6 +1,19 @@
 #pragma once
 #include "basicLegalityFunctions.h"
 
+
+bool** promotionMap(char** b, coordinate pieceCoord, int turn) {
+    bool** returnA = new bool* [size];
+    for (int i = 0; i < size; i++) {
+        returnA[i] = new bool[size] {};
+    }
+
+
+
+    return returnA;
+}
+
+
 bool** computeHighlight(char** b, coordinate sc, int turn) {
     bool** returnA = new bool* [size];
     for (int i = 0; i < size; i++) {

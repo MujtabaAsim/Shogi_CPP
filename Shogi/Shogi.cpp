@@ -9,40 +9,20 @@
 #include <ctime>
 #include "directionalLegality.h"
 #include "pieceLegality.h"
-#include "savingToFile.h"
+#include "readWritePrint.h"
 #include "highlightingFunctions.h"
 #include "turnFunctions.h"
 #include "basicLegalityFunctions.h"
 #include "check.h"
 #include "promotionFunctions.h"
 
-void loadBoard(ifstream &rdr, char** &B, int &turn) {
-    rdr >> turn;
-    for (int r = 0; r < size; r++) {
-        for (int c = 0; c < size; c++) {
-            rdr >> B[r][c];
-        }
-    }
+
+void updatePromotionBoard(int** &pMap, coordinate sc, coordinate dc) {
+    int pieceValue = pMap[sc.ri][sc.ci];
+    pMap[sc.ri][sc.ci] = 0;
+    pMap[dc.ri][dc.ci] = pieceValue;
 }
-void printBoard (char** B) {
-    system("cls");
-    char f = char(fill);
-    //top-most line
-    for (int m = 0; m < size * 4 + 1; m++) {
-        cout << f;
-    } nl(1);
-    //rows
-    for (int r = 0; r < size; r++) {
-        cout << f;
-        //cols
-        for (int c = 0; c < size; c++) {
-            cout << " " << B[r][c] << " " << f;
-        } nl(1);
-        for (int m = 0; m < size * 4 + 1; m++) {
-            cout << f;
-        } nl(1);
-    }
-}
+
 
 void updateBoardTemp(char**& board, coordinate sc, coordinate dc) {
     char piece = board[sc.ri][sc.ci];
@@ -61,13 +41,8 @@ void updateBoard(char**& board, coordinate sc, coordinate dc) {
 
 }
 
-void userInput(coordinate &position) {
-    int r, c;
-    getRCfromMB1(r, c);
-    position.ri = r/=2;
-    position.ci = c/=4;
-}
-void init(ifstream & newB, ifstream& newP, ifstream& loadP, ifstream& loadB, string names[], char** &board, char** &hand, int &turn) {
+
+void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB, string names[], char** &board, char hand[2][19], int& turn) {
     cout << "Welcome to Shogi, black goes first."; nl(1);
     cout << "Piece Symbols (black is lowercase);"; nl(2);
     cout << "Promoted Bishop (Horse) = H"; nl(1);
@@ -100,6 +75,7 @@ void init(ifstream & newB, ifstream& newP, ifstream& loadP, ifstream& loadB, str
         switch (mode) {
         case 1:
             loadBoard(loadB, board, turn);
+            loadHand(loadH, hand);
             modeConfirmed = true;
             break;
         case 2:
@@ -119,24 +95,28 @@ int main()
     ifstream newBoardReader("newBoard.txt");
     ifstream loadBoardReader("loadBoard.txt");
     ifstream newHandReader("newHand.txt");
-    ifstream loadHandReader("loadHand.txt");//
-    ofstream boardWriter("loadBoard.txt");
-    ofstream HandWriter("loadHand.txt");
-    
-    char** board;
-    char** hand;
+    ifstream loadHandReader("loadHand.txt");
+
+    //____VARIABLE DECLARATIONS: hand/turn/game board/promotion board/gameOver bool
+    char hand[2][19]{'-'};
+    bool gameOver = false;
     int turn = -1;
     string pNames[2];
-    board = new char* [size+1];
-    for (int i = 0; i <= size; i++) {
-        board[i] = new char [size + 1];
+    
+    char** board = new char* [size];
+    for (int i = 0; i < size; i++) {
+        board[i] = new char [size];
     }
-
+    int** promotionMap = new int* [size];
+    for (int i = 0; i < size; i++) {
+        promotionMap[i] = new int[size] {};
+    }
+    
 
     ///*
     init(newBoardReader, newHandReader, loadHandReader, loadBoardReader, pNames, board, hand, turn);
 
-    while (true) { //while(!checkmate){}
+    while (!gameOver) { //while(!checkmate){}
         coordinate sc, dc;
         bool** bMap;
         char* coveredPieces = new char[9];
@@ -160,17 +140,19 @@ int main()
         unhighlight(bMap, board, coveredPieces);
         
         
+        updatePromotionBoard(promotionMap, sc, dc);
         updateBoard(board, sc, dc);
         printBoard(board);
         turnChange(turn);
-        //saveBoard(boardWriter, turn, board);
-        saveHand(); //WIP
-        //deletion
+        ofstream boardWriter("loadBoard.txt");
+        ofstream HandWriter("loadHand.txt");
+        saveBoard(boardWriter, turn, board);
+        saveHand(HandWriter, hand);
         for (int i = 0; i < size; i++) {
             delete[] bMap[i];
         }
         delete[] bMap;
-        delete[]coveredPieces;
+        delete[] coveredPieces;
     }
     //*/
     

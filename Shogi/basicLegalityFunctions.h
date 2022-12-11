@@ -8,12 +8,16 @@ bool validSC(char** b, coordinate sc, int turn) {
         return false;
     }
     //if black's turn and he's picking an uppercase piece
-    if (turn == black and b[sc.ri][sc.ci] == toupper(b[sc.ri][sc.ci])) {
-        return false;
+    if (turn == black) {
+        if (b[sc.ri][sc.ci] == toupper(b[sc.ri][sc.ci])) {
+            return false;
+        }
     }
     //if white's turn and he's picking a lowercase piece
-    if (turn == white and b[sc.ri][sc.ci] == tolower(b[sc.ri][sc.ci])) {
-        return false;
+    if (turn == white) {
+        if (b[sc.ri][sc.ci] == tolower(b[sc.ri][sc.ci])) {
+            return false;
+        }
     }
     return true;
 }

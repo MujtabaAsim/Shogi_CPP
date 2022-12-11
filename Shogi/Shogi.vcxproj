@@ -142,7 +142,7 @@
     <ClInclude Include="directionalLegality.h" />
     <ClInclude Include="highlightingFunctions.h" />
     <ClInclude Include="promotionFunctions.h" />
-    <ClInclude Include="savingToFile.h" />
+    <ClInclude Include="readWritePrint.h" />
     <ClInclude Include="pieceLegality.h" />
     <ClInclude Include="turnFunctions.h" />
   </ItemGroup>

@@ -37,7 +37,7 @@
     <ClInclude Include="turnFunctions.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="savingToFile.h">
+    <ClInclude Include="readWritePrint.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="pieceLegality.h">

@@ -58,18 +58,18 @@ bool verticalPC(char** b, coordinate sc, coordinate dc) {
 }
 
 bool diagonal1PC(char** b, coordinate sc, coordinate dc) {
-	int dr, r, c;
+	int DeltaR, r, c;
 	if (sc.ri < dc.ri) {
-		dr = dc.ri - sc.ri - 1;
+		DeltaR = dc.ri - sc.ri - 1;
 		r = sc.ri;
 		c = sc.ci;
 	}
 	else {
-		dr = sc.ri - dc.ri - 1;
+		DeltaR = sc.ri - dc.ri - 1;
 		r = dc.ri;
 		c = dc.ci;
 	}
-	for (int i = 1; i <= dr; i++) {
+	for (int i = 1; i < DeltaR + 1; i++) {
 		if (b[r + i][c + i] != '-') {
 			return false;
 		}
@@ -78,19 +78,19 @@ bool diagonal1PC(char** b, coordinate sc, coordinate dc) {
 }
 
 bool diagonal2PC(char** b, coordinate sc, coordinate dc) {
-	int DC, r, c;
+	int DeltaR, r, c;
 	if (sc.ci < dc.ci) {
-		DC = dc.ci - sc.ci - 1;
-		r = sc.ri;
-		c = sc.ci;
-	}
-	else {
-		DC = sc.ci - dc.ci - 1;
+		DeltaR = dc.ri - sc.ri - 1;
 		r = dc.ri;
 		c = dc.ci;
 	}
-	for (int i = 1; i <= DC; i++) {
-		if (b[r - i][c + i] != '-') {
+	else {
+		DeltaR = sc.ri - dc.ri - 1;
+		r = sc.ri;
+		c = sc.ci;
+	}
+	for (int i = 1; i < DeltaR+1; i++) {
+		if (b[r + i][c - i] != '-') {
 			return false;
 		}
 	}
