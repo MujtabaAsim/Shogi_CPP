@@ -121,7 +121,6 @@ int main()
         bool** bMap;
         char* coveredPieces = new char[9];
         do {
-            
             do {
                 turnMessage(pNames, turn);
                 cout << "Click on the piece you want to move."; nl(1);
