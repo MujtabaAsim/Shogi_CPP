@@ -85,8 +85,8 @@ void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB, 
             cout << "Invalid input.";
         }
     }
-    Sleep(800);
-    //cout << "\nPress any key to continue.";
+    cout << "\n\tPress any key to continue.";
+    _getch();
     printBoard(board);
 }
 
