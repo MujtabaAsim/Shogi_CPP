@@ -147,7 +147,7 @@ void  promotionCheck(char** b, coordinate PC, int turn, bool fromDrop, int** pBo
 			if (piece == 'p' and PC.ri == 0) { //automatically promote pawns
 				promotionReplacement(b, PC);
 				addToPromotionMap(pBoard, PC, piece);
-			} else if (piece == 'k' and PC.ri < 2 ) { //automatically promote knights
+			} else if (piece == 'n' and PC.ri < 2 ) { //automatically promote knights
 				promotionReplacement(b, PC);
 				addToPromotionMap(pBoard, PC, piece);
 			} else if (isSelectedPiecePromotable(piece)) {
@@ -176,4 +176,5 @@ void  promotionCheck(char** b, coordinate PC, int turn, bool fromDrop, int** pBo
 			}
 		}
 	}
+	printBoard(b);
 }

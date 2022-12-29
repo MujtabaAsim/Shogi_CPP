@@ -86,6 +86,7 @@ void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB, 
         }
     }
     Sleep(800);
+    //cout << "\nPress any key to continue.";
     printBoard(board);
 }
 
@@ -136,12 +137,16 @@ int main()
             }
         } while (!bMap[dc.ri][dc.ci]);
         unhighlight(bMap, board, coveredPieces);
+
         
         
         updatePromotionBoard(promotionMap, sc, dc);
         updateBoard(board, sc, dc);
         printBoard(board);
+        promotionCheck(board, dc, turn, false, promotionMap); //change false to implement 'fromDrop' functionality
+        
         turnChange(turn);
+
         ofstream boardWriter("loadBoard.txt");
         ofstream HandWriter("loadHand.txt");
         saveBoard(boardWriter, turn, board);
