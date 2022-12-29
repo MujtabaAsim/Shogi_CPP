@@ -39,8 +39,9 @@ bool yesNoInput() {
 	char input;
 	do {
 		cin >> input;
-	} while (input != 'Y' or input != 'y' or input != 'N' or input != 'n');
-	if (input == 'Y' or input == 'y') {
+		input = tolower(input);
+	} while (input != 'y' or input != 'n');
+	if (input == 'y') {
 		return true;
 	}
 	else {
@@ -88,7 +89,6 @@ bool wantToPromotePiece(char** b, coordinate PC) {
 }
 
 bool isSelectedPiecePromotable(char piece) {
-
 	char pieces[12] = { 'b', 'B', 'p',  'P',  'n',  'N',  's',  'S',  'l',  'L',  'r', 'R' };
 	for (int i = 0; i < 12; i++) {
 		if (pieces[i] == piece) {
