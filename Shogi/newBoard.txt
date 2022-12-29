@@ -2,7 +2,7 @@
 L N S G K G S N L
 - R - - - - - B -
 P P P P P P P P P
-- r - - b - - - -
+- - - - - - - - -
 - - - - - - - - -
 - - - - - - - - -
 p p p p p p p p p

@@ -35,20 +35,6 @@ void promotionReplacement(char** &b, coordinate PC) {
 	}
 }
 
-bool yesNoInput() {
-	char input;
-	do {
-		cin >> input;
-		input = tolower(input);
-	} while (input != 'y' and input != 'n');
-	if (input == 'y') {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
 bool wantToPromotePiece(char** b, coordinate PC) {
 	char piece = b[PC.ri][PC.ci];
 
@@ -139,7 +125,7 @@ void addToPromotionMap(int**& pBoard, coordinate PC, char piece) {
 	}
 }
 
-void  promotionCheck(char** b, coordinate PC, int turn, bool fromDrop, int** pBoard) {
+void  promotionCheck(char** b, coordinate PC, int turn, int** pBoard) {
 	char piece = b[PC.ri][PC.ci];
 	
 	if (turn == black) {

@@ -19,6 +19,20 @@ void nl(int i) {
     }
 }
 
+bool yesNoInput() {
+	char input;
+	do {
+		cin >> input;
+		input = tolower(input);
+	} while (input != 'y' and input != 'n');
+	if (input == 'y') {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 void getRCfromMB1(int& rpos, int& cpos)
 {
 	HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);

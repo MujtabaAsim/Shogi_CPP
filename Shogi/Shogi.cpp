@@ -145,7 +145,7 @@ int main()
         updateBoard(board, sc, dc);
         printBoard(board);
 
-        promotionCheck(board, dc, turn, pieceDropped, promotionMap); //change false to implement 'fromDrop' functionality
+        promotionCheck(board, dc, turn, promotionMap); //change false to implement 'fromDrop' functionality
         
         turnChange(turn);
 
