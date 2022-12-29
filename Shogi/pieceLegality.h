@@ -45,7 +45,7 @@ bool rookLegality(char** b, coordinate sc, coordinate dc) {
 }
 
 bool bishopLegality(char** b, coordinate sc, coordinate dc) {
-	return isDiagonal(sc, dc) and (diagonal1PC(b, sc, dc) or (diagonal2PC(b, sc, dc)));
+	return ( isDiagonal(sc, dc) and (diagonal1PC(b, sc, dc) or diagonal2PC(b, sc, dc)) );
 }
 
 bool lanceLegality(char** b, coordinate sc, coordinate dc, int turn) {
