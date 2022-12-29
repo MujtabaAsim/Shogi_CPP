@@ -90,8 +90,7 @@ void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB, 
     printBoard(board);
 }
 
-int main()
-{
+int main() {
     ifstream newBoardReader("newBoard.txt");
     ifstream loadBoardReader("loadBoard.txt");
     ifstream newHandReader("newHand.txt");

@@ -1,11 +1,10 @@
 #pragma once
 
-
-
 enum { black = 0, white = 1 }; //black goes first in Shogi
 
 #define size 9
 #define fill -37
+
 using namespace std;
 
 struct coordinate {
