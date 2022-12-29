@@ -40,7 +40,7 @@ bool yesNoInput() {
 	do {
 		cin >> input;
 		input = tolower(input);
-	} while (input != 'y' or input != 'n');
+	} while (input != 'y' and input != 'n');
 	if (input == 'y') {
 		return true;
 	}
