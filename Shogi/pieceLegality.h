@@ -2,8 +2,6 @@
 
 #include "directionalLegality.h"
 
-
-
 bool silverGenLegality(char** b, coordinate sc, coordinate dc, int turn) {
 	int deltaR = abs(sc.ri - dc.ri);
 	int deltaC = abs(sc.ci - dc.ci);

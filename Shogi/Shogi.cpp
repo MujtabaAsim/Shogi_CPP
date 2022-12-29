@@ -120,6 +120,7 @@ int main()
         coordinate sc, dc;
         bool** bMap;
         char* coveredPieces = new char[9];
+        bool pieceDropped = false;
         do {
             do {
                 turnMessage(pNames, turn);
