@@ -78,18 +78,18 @@ bool diagonal1PC(char** b, coordinate sc, coordinate dc) {
 }
 
 bool diagonal2PC(char** b, coordinate sc, coordinate dc) {
-	int DeltaR, r, c;
+	int DeltaC, r, c;
 	if (sc.ci < dc.ci) {
-		DeltaR = dc.ri - sc.ri - 1;
+		DeltaC = dc.ci - sc.ci - 1;
 		r = dc.ri;
 		c = dc.ci;
 	}
 	else {
-		DeltaR = sc.ri - dc.ri - 1;
+		DeltaC = sc.ci - dc.ci - 1;
 		r = sc.ri;
 		c = sc.ci;
 	}
-	for (int i = 1; i < DeltaR+1; i++) {
+	for (int i = 1; i < DeltaC + 1; i++) {
 		if (b[r + i][c - i] != '-') {
 			return false;
 		}

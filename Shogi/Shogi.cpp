@@ -38,7 +38,6 @@ void updateBoard(char**& board, coordinate sc, coordinate dc) {
     char piece = board[sc.ri][sc.ci];
     board[sc.ri][sc.ci] = '-';
     board[dc.ri][dc.ci] = piece;
-
 }
 
 
