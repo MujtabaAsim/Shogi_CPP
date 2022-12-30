@@ -79,11 +79,9 @@ int main() {
         promotionMap[i] = new int[size] {};
     }
     
-
-    ///*
     init(newBoardReader, newHandReader, loadHandReader, loadBoardReader, pNames, board, hand, turn);
-
-    while (!checkMate(board, turn)) { 
+    
+    while (checkMate(board, turn) == false) { 
         coordinate sc, dc;
         bool** bMap;
         char* coveredPieces = new char[12];
@@ -132,7 +130,7 @@ int main() {
         delete[] bMap;
         delete[] coveredPieces;
     }
-    //*/
+    cout << "Game over, " << pNames[turn] << " won!"; nl(5);
     return _getch();
 }
 

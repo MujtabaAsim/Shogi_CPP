@@ -48,46 +48,44 @@ bool selfCheck(char** b, int turn) {
 bool checkMate(char **b, int turn) {
 	//___SEE IF THE KING CAN SAVE ITSELF
 	coordinate kingSC = findKing(b, turn);
-	coordinate* kingsMoves; int a = 0;
+	coordinate* kingsMoves; int NumOfKingsMoves = 0;
 	kingsMoves = new coordinate[12];
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
 			coordinate kingDC; kingDC.ri = i; kingDC.ci = j;
 			if (isMoveLegal(b, kingSC, kingDC, turn)) {
-				kingsMoves[a++] = kingDC;
+				kingsMoves[NumOfKingsMoves++] = kingDC;
 			}
 		}
 	}
-	for (int i = 0; i < a; i++) {
-		if (!selfCheck(b, turn)) {
-			return true;
+	for (int i = 0; i < NumOfKingsMoves; i++) {
+		if (selfCheck(b, turn) == false) {
+			return false;
 		}
 	}
 	//___SEE IF OTHER PIECES CAN SAVE THE KING
-	coordinate* validSCs; int a;
+	coordinate* validSCs; int NumOfSCs = 0;
 	validSCs = new coordinate[20];
 	for (int r = 0; r < size; r++) {
 		for (int c = 0; c < size; c++) {
 			coordinate sc; sc.ri = r, sc.ci = c;
 			if (validSC(b, sc, turn)) {
-				validSCs[a++] = sc;
+				validSCs[NumOfSCs++] = sc;
 			}
 		}
 	}
-	for (int i = 0; i < a; i++) {
+	for (int i = 0; i < NumOfSCs; i++) {
 		for (int r = 0; r < size; r++) {
 			for (int c = 0; c < size; c++) {
 				coordinate dc; dc.ri = r, dc.ci = c;
-				if (isMoveLegal(b, validSCs[i], dc, turn) and validDC(b, dc, turn)) {
-					updateBoardTemp(b, validSCs[i], dc);
-					if (!selfCheck(b, turn)) {
-						undoTempBoardUpdate(b, validSCs[i], dc);
-						return true;
-					}
+				updateBoardTemp(b, validSCs[i], dc);
+				if (!selfCheck(b, turn)) {
 					undoTempBoardUpdate(b, validSCs[i], dc);
+					return false;
 				}
+				undoTempBoardUpdate(b, validSCs[i], dc);
 			}
 		}
 	}
-	return false;
+	return true;
 }
