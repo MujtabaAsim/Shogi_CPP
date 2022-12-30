@@ -60,12 +60,12 @@ bool checkMate(char **b, int turn) {
 	}
 	for (int i = 0; i < a; i++) {
 		if (!selfCheck(b, turn)) {
-			return false;
+			return true;
 		}
 	}
 	//___SEE IF OTHER PIECES CAN SAVE THE KING
 	coordinate* validSCs; int a;
-	validSCs = new coordinate[19];
+	validSCs = new coordinate[20];
 	for (int r = 0; r < size; r++) {
 		for (int c = 0; c < size; c++) {
 			coordinate sc; sc.ri = r, sc.ci = c;
@@ -82,12 +82,12 @@ bool checkMate(char **b, int turn) {
 					updateBoardTemp(b, validSCs[i], dc);
 					if (!selfCheck(b, turn)) {
 						undoTempBoardUpdate(b, validSCs[i], dc);
-						return false;
+						return true;
 					}
 					undoTempBoardUpdate(b, validSCs[i], dc);
 				}
 			}
 		}
 	}
-	return true;
+	return false;
 }
