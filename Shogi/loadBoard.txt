@@ -1,8 +1,8 @@
-0
+1
 L N S G K G S N L 
-- R - - - - - B - 
-P P P P P - P P P 
-- r - - b P - - - 
+- R - - g - - B - 
+P P P P - P P P P 
+- - - - - - - - - 
 - - - - - - - - - 
 - - - - - - - - - 
 p p p p p p p p p 

@@ -6,7 +6,8 @@ coordinate findKing(char** b, int turn) {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				if (b[i][j] == 'k') {
-					dc.ri = i; dc.ci = i; return dc;
+					dc.ri = i; dc.ci = j; 
+					return dc;
 				}
 			}
 		}
@@ -15,7 +16,8 @@ coordinate findKing(char** b, int turn) {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				if (b[i][j] == 'K') {
-					dc.ri = i; dc.ci = i; return dc;
+					dc.ri = i; dc.ci = j; 
+					return dc;
 				}
 			}
 		}

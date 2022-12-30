@@ -57,9 +57,39 @@ void printBoard(char** B) {
 	}
 }
 
+void updatePromotionBoard(int**& pMap, coordinate sc, coordinate dc) {
+	int pieceValue = pMap[sc.ri][sc.ci];
+	pMap[sc.ri][sc.ci] = 0;
+	pMap[dc.ri][dc.ci] = pieceValue;
+}
+
+void updateBoardTemp(char**& board, coordinate sc, coordinate dc) {
+	char piece = board[sc.ri][sc.ci];
+	board[sc.ri][sc.ci] = '-';
+	board[dc.ri][dc.ci] = piece;
+}
+
+void undoTempBoardUpdate(char**& board, coordinate sc, coordinate dc) {
+	char piece = board[dc.ri][dc.ci];
+	board[dc.ri][dc.ci] = '-';
+	board[sc.ri][sc.ci] = piece;
+}
+
+void updateBoard(char**& board, coordinate sc, coordinate dc) {
+	char piece = board[sc.ri][sc.ci];
+	board[sc.ri][sc.ci] = '-';
+	board[dc.ri][dc.ci] = piece;
+}
+
+void userInput_(coordinate& position) {
+	getRCfromMB1(position.ri, position.ci);
+	position.ri /= 2;
+	position.ci /= 4;
+}
+
 void userInput(coordinate& position) {
-	int r, c;
-	getRCfromMB1(r, c);
-	position.ri = r /= 2;
-	position.ci = c /= 4;
+	cout << "Enter coordinates (r c): ";
+	cin >> position.ri >> position.ci;
+	position.ri--;
+	position.ci--;
 }

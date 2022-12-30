@@ -17,48 +17,21 @@
 #include "promotionFunctions.h"
 
 
-void updatePromotionBoard(int** &pMap, coordinate sc, coordinate dc) {
-    int pieceValue = pMap[sc.ri][sc.ci];
-    pMap[sc.ri][sc.ci] = 0;
-    pMap[dc.ri][dc.ci] = pieceValue;
-}
-
-
-void updateBoardTemp(char**& board, coordinate sc, coordinate dc) {
-    char piece = board[sc.ri][sc.ci];
-    board[sc.ri][sc.ci] = '-';
-    board[dc.ri][dc.ci] = piece;
-}
-void undoTempBoardUpdate(char**& board, coordinate sc, coordinate dc) {
-    char piece = board[dc.ri][dc.ci];
-    board[dc.ri][dc.ci] = '-';
-    board[sc.ri][sc.ci] = piece;
-}
-void updateBoard(char**& board, coordinate sc, coordinate dc) {
-    char piece = board[sc.ri][sc.ci];
-    board[sc.ri][sc.ci] = '-';
-    board[dc.ri][dc.ci] = piece;
-}
 
 
 void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB, string names[], char** &board, char hand[2][19], int& turn) {
     cout << "Welcome to Shogi, black goes first."; nl(1);
     cout << "Piece Symbols (black is lowercase);"; nl(2);
-    cout << "Promoted Bishop (Horse) = H"; nl(1);
-    cout << "Promoted Rook (Dragon) = D"; nl(1);
-    cout << "Golden General = G"; nl(1);
-    cout << "Silver General = S"; nl(1);
+    cout << "Bishop+ (Horse) = H"; nl(1);
+    cout << "Rook+ (Dragon) = D"; nl(1);
+    cout << "Golden Gen. = G"; nl(1);
+    cout << "Silver Gen. = S"; nl(1);
     cout << "Bishop = B"; nl(1);
     cout << "Knight = N"; nl(1);
     cout << "Lance = L"; nl(1);
     cout << "Pawn = P"; nl(1);
     cout << "King = K"; nl(1);
     cout << "Rook = R"; nl(2);
-
-    cout << "Promotions: "; nl(2);
-    cout << "S/P/L/N -> G"; nl(1);
-    cout << "B -> H"; nl(1);
-    cout << "R -> D"; nl(2);
 
     names[black] = "Mujtaba";
     names[white] = "Asim";
@@ -85,8 +58,8 @@ void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB, 
             cout << "Invalid input.";
         }
     }
-    cout << "\n\tPress any key to continue.";
-    _getch();
+    cout << "\tPress any key to continue.";
+    char junk = _getch();
     printBoard(board);
 }
 
@@ -120,34 +93,44 @@ int main() {
         bool** bMap;
         char* coveredPieces = new char[9];
         bool pieceDropped = false;
+        
+        
         do {
             do {
-                turnMessage(pNames, turn);
-                cout << "Click on the piece you want to move."; nl(1);
-                userInput(sc);
-            } while (!validSC(board, sc, turn));
-            bMap = computeHighlight(board, sc, turn);
-            highlight(bMap, board, coveredPieces);
-            printBoard(board);
-            cout << "Click where you want to place it."; nl(1);
-            userInput(dc);
-            if (bMap[dc.ri][dc.ci] == false) {
-                unhighlight(bMap, board, coveredPieces);
+                do {
+                    turnMessage(pNames, turn);
+                    cout << "Click on the piece you want to move."; nl(1);
+                    userInput(sc);
+                } while (!validSC(board, sc, turn));
+                bMap = computeHighlight(board, sc, turn);
+                highlight(bMap, board, coveredPieces);
                 printBoard(board);
+                cout << "Click where you want to place it."; nl(1);
+                userInput(dc);
+                if (bMap[dc.ri][dc.ci] == false) {
+                    unhighlight(bMap, board, coveredPieces);
+                    system("cls");
+                    printBoard(board);
+                }
+            } while (!bMap[dc.ri][dc.ci]);
+            unhighlight(bMap, board, coveredPieces);
+            updateBoardTemp(board, sc, dc);
+            if (selfCheck(board, turn)) {
+                system("cls");
+                undoTempBoardUpdate(board, sc, dc); printBoard(board);
+                cout << "That move places you in a check, try again!"; nl(1);
             }
-        } while (!bMap[dc.ri][dc.ci]);
-        unhighlight(bMap, board, coveredPieces);
+        } while (selfCheck(board, turn));
 
-        
-        
-        updatePromotionBoard(promotionMap, sc, dc);
-        updateBoard(board, sc, dc);
+        undoTempBoardUpdate(board, sc, dc);
+        updatePromotionBoard(promotionMap, sc, dc); updateBoard(board, sc, dc);
         printBoard(board);
 
-        promotionCheck(board, dc, turn, promotionMap); //change false to implement 'fromDrop' functionality
-        
+        //implement if here to not run promotionCheck if piece is dropped on board.
+        promotionCheck(board, dc, turn, promotionMap);
         turnChange(turn);
 
+        //Writing to file + highlight map deletion
         ofstream boardWriter("loadBoard.txt");
         ofstream HandWriter("loadHand.txt");
         saveBoard(boardWriter, turn, board);
@@ -159,7 +142,6 @@ int main() {
         delete[] coveredPieces;
     }
     //*/
-    
     return _getch();
 }
 
