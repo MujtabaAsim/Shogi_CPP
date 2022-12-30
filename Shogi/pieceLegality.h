@@ -66,13 +66,9 @@ bool knightLegality(char** b, coordinate sc, coordinate dc, int turn) {
 }
 
 bool promotedBishopLegality(char** b, coordinate sc, coordinate dc) {
-	int deltaR = abs(sc.ri - dc.ri);
-	int deltaC = abs(sc.ci - dc.ci);
-	return ((deltaR < 2 and deltaC < 2) or bishopLegality(b, sc, dc));
+	return (kingLegality(b, sc, dc) or bishopLegality(b, sc, dc));
 }
 
 bool promotedRookLegality(char** b, coordinate sc, coordinate dc) {
-	int deltaR = abs(sc.ri - dc.ri);
-	int deltaC = abs(sc.ci - dc.ci);
-	return ((deltaR < 2 and deltaC < 2) or rookLegality(b, sc, dc));
+	return (kingLegality(b, sc, dc) or rookLegality(b, sc, dc));
 }

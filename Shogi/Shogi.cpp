@@ -114,11 +114,9 @@ int main() {
                 cout << "That move places you in a check, try again!"; nl(1);
             }
         } while (selfCheck(board, turn));
-
         undoTempBoardUpdate(board, sc, dc);
         updatePromotionBoard(promotionMap, sc, dc); updateBoard(board, sc, dc);
         printBoard(board);
-
         //implement if here to not run promotionCheck if piece is dropped on board.
         promotionCheck(board, dc, turn, promotionMap);
         turnChange(turn);
