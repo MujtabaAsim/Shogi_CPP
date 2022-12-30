@@ -81,7 +81,7 @@ void updateBoard(char**& board, coordinate sc, coordinate dc) {
 	board[dc.ri][dc.ci] = piece;
 }
 
-void userInput_(coordinate& position) {
+void userInput_Mouse(coordinate& position) {
 	getRCfromMB1(position.ri, position.ci);
 	position.ri /= 2;
 	position.ci /= 4;

@@ -16,9 +16,6 @@
 #include "check.h"
 #include "promotionFunctions.h"
 
-
-
-
 void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB, string names[], char** &board, char hand[2][19], int& turn) {
     cout << "Welcome to Shogi, black goes first."; nl(1);
     cout << "Piece Symbols (black is lowercase);"; nl(2);
@@ -71,10 +68,8 @@ int main() {
 
     //____VARIABLE DECLARATIONS: hand/turn/game board/promotion board/gameOver bool
     char hand[2][19]{'-'};
-    bool gameOver = false;
     int turn = -1;
     string pNames[2];
-    
     char** board = new char* [size];
     for (int i = 0; i < size; i++) {
         board[i] = new char [size];
@@ -88,13 +83,11 @@ int main() {
     ///*
     init(newBoardReader, newHandReader, loadHandReader, loadBoardReader, pNames, board, hand, turn);
 
-    while (!gameOver) { //while(!checkmate){}
+    while (!checkMate(board, turn)) { 
         coordinate sc, dc;
         bool** bMap;
-        char* coveredPieces = new char[9];
+        char* coveredPieces = new char[12];
         bool pieceDropped = false;
-        
-        
         do {
             do {
                 do {
@@ -130,7 +123,7 @@ int main() {
         promotionCheck(board, dc, turn, promotionMap);
         turnChange(turn);
 
-        //Writing to file + highlight map deletion
+        //___Writing to file + highlight map deletion
         ofstream boardWriter("loadBoard.txt");
         ofstream HandWriter("loadHand.txt");
         saveBoard(boardWriter, turn, board);

@@ -1,6 +1,6 @@
-1
-L N S G K G S N L 
-- R - - g - - B - 
+0
+L N S - K G S N L 
+- R - - G - - B - 
 P P P P - P P P P 
 - - - - - - - - - 
 - - - - - - - - - 
