@@ -47,22 +47,9 @@ bool selfCheck(char** b, int turn) {
 
 bool checkMate(char **b, int turn) {
 	//___SEE IF THE KING CAN SAVE ITSELF
-	coordinate kingSC = findKing(b, turn);
-	coordinate* kingsMoves; int NumOfKingsMoves = 0;
-	kingsMoves = new coordinate[12];
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			coordinate kingDC; kingDC.ri = i; kingDC.ci = j;
-			if (isMoveLegal(b, kingSC, kingDC, turn)) {
-				kingsMoves[NumOfKingsMoves++] = kingDC;
-			}
-		}
-	}
-	for (int i = 0; i < NumOfKingsMoves; i++) {
-		if (selfCheck(b, turn) == false) {
+		if (selfCheck(b, turn) == false) { //if, at any given point, the king is NOT in check, then it obviously can't be in a mate.
 			return false;
 		}
-	}
 	//___SEE IF OTHER PIECES CAN SAVE THE KING
 	coordinate* validSCs; int NumOfSCs = 0;
 	validSCs = new coordinate[20];
@@ -79,7 +66,7 @@ bool checkMate(char **b, int turn) {
 			for (int c = 0; c < size; c++) {
 				coordinate dc; dc.ri = r, dc.ci = c;
 				updateBoardTemp(b, validSCs[i], dc);
-				if (!selfCheck(b, turn)) {
+				if (selfCheck(b, turn) == false) { //if, after another friendly piece has moved, the king is no longer in check, then it obviously can't be in a mate.
 					undoTempBoardUpdate(b, validSCs[i], dc);
 					return false;
 				}
@@ -87,5 +74,8 @@ bool checkMate(char **b, int turn) {
 			}
 		}
 	}
+	//___SEE IF DROPPABLE PIECES CAN SAVE THE KING
+
+
 	return true;
 }
