@@ -76,11 +76,11 @@ bool isMoveLegal(char** board, coordinate sc, coordinate dc, int turn) {
         break;
     case 'H':
     case 'h':
-        return promotedBishopLegality(board, sc, dc);
+        return promotedBishopLegality(board, sc, dc); //horse
         break;
     case 'd':
     case 'D':
-        return promotedRookLegality(board, sc, dc);
+        return promotedRookLegality(board, sc, dc); //dragon
         break;
     }
     return 0;

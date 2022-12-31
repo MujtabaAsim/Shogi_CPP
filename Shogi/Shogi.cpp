@@ -121,9 +121,9 @@ int main() {
 
         //___Writing to file + highlight map deletion
         ofstream boardWriter("loadBoard.txt");
-        ofstream HandWriter("loadHand.txt");
+        ofstream handWriter("loadHand.txt");
         saveBoard(boardWriter, turn, board);
-        saveHand(HandWriter, hand);
+        saveHand(handWriter, hand);
         for (int i = 0; i < size; i++) {
             delete[] bMap[i];
         }
