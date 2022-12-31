@@ -2,11 +2,11 @@
 // IHTFP.
 
 #include <iostream>
-#include <fstream>
-#include <Windows.h>
-#include <conio.h>
-#include "auxiliary.h"
+#include <fstream> 
+#include <Windows.h> 
+#include <conio.h> 
 #include <ctime>
+#include "auxiliary.h"
 #include "directionalLegality.h"
 #include "pieceLegality.h"
 #include "readWritePrint.h"
@@ -41,7 +41,6 @@ void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB, 
         int mode;
         mode = 2;
         //cout << "Load old board (1) or new game (2): "; cin >> mode;
-
         switch (mode) {
         case 1:
             loadBoard(loadB, board, turn);
@@ -86,13 +85,7 @@ int main() {
     
     init(newBoardReader, newHandReader, loadHandReader, loadBoardReader, loadPromotionMap, newPromotionMap, pNames, board, hand, pMap, turn);
     
-
-    while (checkMate(board, turn) == false) {
-        printBoard(board);
-        _getch();
-    }
-    
-    /*
+    ///*
     while (checkMate(board, turn) == false) {
         coordinate sc, dc;
         bool** bMap;
@@ -145,8 +138,8 @@ int main() {
         delete[] coveredPieces;
         
     }
-    */
     cout << "Game over, " << pNames[turn] << " won!"; nl(5);
-    return _getch();
+    //*/
+    return 0;
 }
 

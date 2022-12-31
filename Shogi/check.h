@@ -50,6 +50,7 @@ bool checkMate(char **b, int turn) {
 		if (selfCheck(b, turn) == false) { //if, at any given point, the king is NOT in check, then it obviously can't be in a mate.
 			return false;
 		}
+		
 	//2.___SEE IF OTHER PIECES CAN SAVE THE KING
 		coordinate* validSCs; int NumOfSCs = 0;
 		validSCs = new coordinate[20];
@@ -65,8 +66,8 @@ bool checkMate(char **b, int turn) {
 			for (int r = 0; r < size; r++) {
 				for (int c = 0; c < size; c++) {
 					coordinate dc { r, c };
-					updateBoardTemp(b, validSCs[i], dc);
-					if (selfCheck(b, turn) == false) { //if, after another friendly piece has moved, the king is no longer in check, then it obviously can't be in a mate.
+					updateBoard(b, validSCs[i], dc);
+					if (check(b, turn) == false) { //if, after another friendly piece has moved, the king is no longer in check, then it obviously can't be in a mate.
 						undoTempBoardUpdate(b, validSCs[i], dc);
 						return false;
 					}
