@@ -1,11 +1,12 @@
 #pragma once
 
 coordinate findKing(char** b, int turn) {
+	coordinate dc { 0, 0 };
 	if (turn == black) {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				if (b[i][j] == 'k') {
-					coordinate dc{ i, j };
+					dc.ri = i; dc.ci = j; 
 					return dc;
 				}
 			}
@@ -15,7 +16,7 @@ coordinate findKing(char** b, int turn) {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				if (b[i][j] == 'K') {
-					coordinate dc{ i, j };
+					dc.ri = i; dc.ci = j; 
 					return dc;
 				}
 			}

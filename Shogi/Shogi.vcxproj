@@ -131,9 +131,11 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="loadHand.txt" />
+    <Text Include="loadPromotionMap.txt" />
     <Text Include="newBoard.txt" />
     <Text Include="loadBoard.txt" />
     <Text Include="newHand.txt" />
+    <Text Include="newPromotionMap.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="auxiliary.h" />

@@ -32,6 +32,12 @@
     <Text Include="loadHand.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="newPromotionMap.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="loadPromotionMap.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="turnFunctions.h">

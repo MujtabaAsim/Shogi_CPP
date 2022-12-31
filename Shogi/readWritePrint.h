@@ -20,6 +20,23 @@ void saveHand(ofstream &writer, char hand[][19]) {
 	}
 }
 
+void savePromotions(ofstream &writer, int** map) {
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			writer << map[i][j] << " ";
+		}
+		writer << endl;
+	}
+}
+
+void loadPromotions(ifstream& rdr, int**& map) {
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			rdr >> map[i][j];
+		}
+	}
+}
+
 void loadHand(ifstream& rdr, char hand[][19]) {
 	for (int player = 0; player < 2; player++) {
 		for (int pieceNo = 0; pieceNo < 19; pieceNo++) {

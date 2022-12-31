@@ -1,12 +1,12 @@
-0
+1
 L N S G K G S N L
 - R - - - - - B -
-P P P P p P P P P
+- P P P p P h P P
+P - - - - - - - -
 - - - - - - - - -
-- - - - - - - - -
-- - - - - - - - -
-p p p p p p p p p
-- b - - - - - r -
+- - p - - - - - -
+p p - p p p p p p
+- - - - - - - r -
 l n s g k g s n l
 testing
 
