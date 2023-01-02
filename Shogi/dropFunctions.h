@@ -1,4 +1,5 @@
 #pragma once
+#include "captureFunctions.h"
 
 char pickPieceFromHand(int turn, char hand[2][19], int handCounter[]) {
 	cout << "Pick a piece number from your hand: ";
@@ -61,7 +62,7 @@ bool isDropValid(char** b, coordinate dc, int turn, char piece, char hand[2][19]
 	undoTempDrop(b, dc);
 	//dropped pawn can not give an immediate checkmate
 	tempDrop(b, dc, piece);
-	if (checkMate(b, turn, hand, handCounter) and (piece == 'P' or piece == 'p')) {
+	if ((piece == 'P' or piece == 'p') and (checkMate(b, turn, hand, handCounter))) {
 		undoTempDrop(b, dc);
 		cout << "Placing this " << charToPieceName(piece) << " at that position will cause a checkmate.";
 		return false;

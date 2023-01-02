@@ -76,23 +76,6 @@ bool checkMate(char **b, int turn, char hand [2][19], int handCounter[]) {
 				}
 			}
 		}
-		delete[] validSCs;
-	//3.___SEE IF DROPPABLE PIECES CAN SAVE THE KING
-		for (int r = 0; r < size; r++) {
-			for (int c = 0; c < size; c++) {
-				for (int i = 0; i < handCounter[turn]; i++) {
-					if (hand[turn][i] != 'p' and hand[turn][i] != 'P') { //if piece is not a pawn
-						coordinate dc{ r, c };
-						char piece = hand[turn][i];
-						tempDrop(b, dc, piece);
-						if (check(b, turn) == false) {
-							undoTempDrop(b, dc);
-							return false;
-						}
-						undoTempDrop(b, dc);
-					}
-				}
-			}
-		}
+		delete[] validSCs;	
 	return true;
 }

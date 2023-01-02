@@ -14,9 +14,9 @@
 #include "turnFunctions.h"
 #include "basicLegalityFunctions.h"
 #include "checkFunctions.h"
+#include "dropFunctions.h"
 #include "promotionFunctions.h"
 #include "captureFunctions.h"
-#include "dropFunctions.h"
 
 void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB, 
         ifstream & loadP, ifstream & newP,string names[], char** &board, char hand[2][19], 
