@@ -1,10 +1,10 @@
-0
+1
 L N S G K G S N L 
-- R - - - - - B - 
+- R - h - - - B - 
 - - - - P P - - P 
-P - - - - b - - - 
-- P - - - - - - - 
-- - P P P - - - - 
-p G - p p p p - p 
+P - - - - - - - - 
+- - - - - - - - - 
+- P P P P - - - - 
+p p - p p p p - p 
 - - - - - - - r - 
 l n s g k g s n l 

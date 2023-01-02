@@ -8,12 +8,6 @@ char pickPieceFromHand(int turn, char hand[2][19], int handCounter[]) {
 	return hand[turn][pieceNumber];
 }
 
-void tempDrop(char** &b, coordinate dc, char piece) {b[dc.ri][dc.ci] = piece;}
-
-void realDrop(char**& b, coordinate dc, char piece) {b[dc.ri][dc.ci] = piece;}
-
-void undoTempDrop(char** &b, coordinate dc) {b[dc.ri][dc.ci] = '-';}
-
 bool ThisPieceHasALegalMove(char** b, char piece, coordinate sc, int turn) {
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {

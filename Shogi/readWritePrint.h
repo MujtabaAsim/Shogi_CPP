@@ -115,6 +115,12 @@ void updateBoard(char**& board, coordinate sc, coordinate dc) {
 	board[dc.ri][dc.ci] = piece;
 }
 
+void tempDrop(char**& b, coordinate dc, char piece) { b[dc.ri][dc.ci] = piece; }
+
+void realDrop(char**& b, coordinate dc, char piece) { b[dc.ri][dc.ci] = piece; }
+
+void undoTempDrop(char**& b, coordinate dc) { b[dc.ri][dc.ci] = '-'; }
+
 void userInput_Mouse(coordinate& position) {
 	getRCfromMB1(position.ri, position.ci);
 	position.ri /= 2;

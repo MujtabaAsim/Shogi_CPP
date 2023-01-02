@@ -81,7 +81,7 @@ int main() {
     while (!checkMate(board, turn, hand, handCounter)) {
         coordinate sc, dc;
         turnMessage(pNames, turn);
-        bool drop = false;
+        bool drop = false, undo = false;
         //___Drop a Piece
         if (handCounter[turn] > 0) {
             cout << "Drop piece from hand instead of moving? (Y/N): ";
@@ -157,14 +157,23 @@ int main() {
             delete[] coveredPieces;
         }
         
-        //___Writing + Deletion
-        ofstream boardWriter("loadBoard.txt");
-        ofstream handWriter("loadHand.txt");
-        ofstream pMapWriter("loadPromotionMap.txt");
-        turnChange(turn);
-        savePromotions(pMapWriter, pMap);
-        saveBoard(boardWriter, turn, board);
-        saveHand(handWriter, hand, handCounter);
+        //ADD UNDO CODE HERE
+        cout << "Do you want to undo the last move? (Y/N): ";
+        undo = yesNoInput();
+
+        if (undo) {
+            undoTempBoardUpdate(board, sc, dc);
+        }
+        else {
+            //___Writing + Deletion
+            ofstream boardWriter("loadBoard.txt");
+            ofstream handWriter("loadHand.txt");
+            ofstream pMapWriter("loadPromotionMap.txt");
+            turnChange(turn);
+            savePromotions(pMapWriter, pMap);
+            saveBoard(boardWriter, turn, board);
+            saveHand(handWriter, hand, handCounter);
+        }
     }
     gameEndMessage(turn, pNames);
     return 0;
