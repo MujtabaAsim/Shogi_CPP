@@ -30,12 +30,10 @@ bool validDC(char** b, coordinate dc, int turn) {
     if (turn == black and b[dc.ri][dc.ci] != '-' and b[dc.ri][dc.ci] == tolower(b[dc.ri][dc.ci])) {
         return false;
     }
-
     //if white's turn and he's placing the piece on another uppercase piece
     if (turn == white and b[dc.ri][dc.ci] != '-' and b[dc.ri][dc.ci] == toupper(b[dc.ri][dc.ci])) {
         return false;
     }
-
     return true;
 }
 

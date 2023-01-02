@@ -143,6 +143,7 @@
     <ClInclude Include="checkFunctions.h" />
     <ClInclude Include="directionalLegality.h" />
     <ClInclude Include="captureFunctions.h" />
+    <ClInclude Include="dropFunctions.h" />
     <ClInclude Include="highlightingFunctions.h" />
     <ClInclude Include="promotionFunctions.h" />
     <ClInclude Include="readWritePrint.h" />

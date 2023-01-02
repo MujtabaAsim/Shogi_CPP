@@ -70,5 +70,8 @@
     <ClInclude Include="captureFunctions.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="dropFunctions.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

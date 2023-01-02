@@ -67,4 +67,8 @@ void SetColour(int clr) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), clr);
 }
 
-
+void gameEndMessage(int turn, string pNames[]) {
+	cout << "Game over, " << pNames[turn] << " won!";
+	nl(5);
+	cout << "Press any key to continue.";
+}
