@@ -124,19 +124,22 @@ void addToPromotionMap(int**& pBoard, coordinate PC, char piece) {
 	}
 }
 
-void promotionCheck(char** b, coordinate PC, int turn, int** pBoard) {
+void promotionCheck(char** b, coordinate PC, int turn, int** pBoard, bool& promotionHappened) {
 	char piece = b[PC.ri][PC.ci];
 	
 	if (turn == black) {
 		if (PC.ri < 3) {
 			if (piece == 'p' and PC.ri == 0) { //automatically promote pawns
+				promotionHappened = true;
 				promotionReplacement(b, PC);
 				addToPromotionMap(pBoard, PC, piece);
 			} else if (piece == 'n' and PC.ri < 2 ) { //automatically promote knights
+				promotionHappened = true;
 				promotionReplacement(b, PC);
 				addToPromotionMap(pBoard, PC, piece);
 			} else if (isSelectedPiecePromotable(piece)) {
 				if (wantToPromotePiece(b, PC)) {
+					promotionHappened = true;
 					promotionReplacement(b, PC);
 					addToPromotionMap(pBoard, PC, piece);
 				}
@@ -146,15 +149,18 @@ void promotionCheck(char** b, coordinate PC, int turn, int** pBoard) {
 	else {
 		if (PC.ri > 5) {
 			if (piece == 'P' and PC.ri == 8) { //automatically promote pawns
+				promotionHappened = true;
 				promotionReplacement(b, PC);
 				addToPromotionMap(pBoard, PC, piece);
 			}
 			else if (piece == 'N' and PC.ri > 6) { //automatically promote knights
+				promotionHappened = true;
 				promotionReplacement(b, PC);
 				addToPromotionMap(pBoard, PC, piece);
 			}
 			else if (isSelectedPiecePromotable(piece)) {
 				if (wantToPromotePiece(b, PC)) {
+					promotionHappened = true;
 					promotionReplacement(b, PC);
 					addToPromotionMap(pBoard, PC, piece);
 				}

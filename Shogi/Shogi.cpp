@@ -81,7 +81,7 @@ int main() {
     while (!checkMate(board, turn, hand, handCounter)) {
         coordinate sc, dc;
         turnMessage(pNames, turn);
-        bool drop = false, undo = false;
+        bool drop = false, undo = false, newPromotionHappened = false;
         //___Drop a Piece
         if (handCounter[turn] > 0) {
             cout << "Drop piece from hand instead of moving? (Y/N): ";
@@ -148,7 +148,7 @@ int main() {
             undoTempBoardUpdate(board, sc, dc);
             updatePromotionBoard(pMap, sc, dc); updateBoard(board, sc, dc);
             printBoard(board, hand, handCounter, pNames);
-            promotionCheck(board, dc, turn, pMap);
+            promotionCheck(board, dc, turn, pMap, newPromotionHappened);
             printBoard(board, hand, handCounter, pNames);
             for (int i = 0; i < size; i++) {
                 delete[] bMap[i];
@@ -162,7 +162,16 @@ int main() {
         undo = yesNoInput();
 
         if (undo) {
-            undoTempBoardUpdate(board, sc, dc);
+            if (drop) {
+                //undoDrop();
+            }
+            else {
+                undoTempBoardUpdate(board, sc, dc);
+                undoPromotionBoard(pMap, sc, dc);
+                if (newPromotionHappened) {
+                    //undoPromotion();
+                }
+            }
         }
         else {
             //___Writing + Deletion
@@ -176,6 +185,6 @@ int main() {
         }
     }
     gameEndMessage(turn, pNames);
-    return 0;
+    return _getch();
 }
 
