@@ -11,8 +11,8 @@ void saveBoard(ofstream &writer, int turn, char**b) {
 	}
 }
 
-void saveHand(ofstream &writer, char hand[][19], int blackHandCounter, int whiteHandCounter) {
-	writer << blackHandCounter << " " << whiteHandCounter;
+void saveHand(ofstream &writer, char hand[][19], int handCounter[]) {
+	writer << handCounter[black] << " " << handCounter[white];
 	writer << endl;
 	for (int player = 0; player < 2; player++) {
 		for (int pieceNo = 0; pieceNo < 19; pieceNo++) {
@@ -39,8 +39,8 @@ void loadPromotions(ifstream& rdr, int**& map) {
 	}
 }
 
-void loadHand(ifstream& rdr, char hand[][19], int & blackHandCounter, int& whiteHandCounter) {
-	rdr >> blackHandCounter >> whiteHandCounter;
+void loadHand(ifstream& rdr, char hand[][19], int handCounter[]) {
+	rdr >> handCounter[black] >> handCounter[white];
 	for (int player = 0; player < 2; player++) {
 		for (int pieceNo = 0; pieceNo < 19; pieceNo++) {
 			rdr >> hand[player][pieceNo];
@@ -57,20 +57,20 @@ void loadBoard(ifstream& rdr, char**& B, int& turn) {
 	}
 }
 
-void printHand(char hand[][19], int blackHandCounter, int whiteHandCounter, string names[]) {
+void printHand(char hand[][19], int handCounter[], string names[]) {
 	cout << names[black]<<"'s hand: ";
-	for (int i = 0; i < blackHandCounter; i++) {
+	for (int i = 0; i < handCounter[black]; i++) {
 		cout << hand[black][i] << " ";
 	}
 	nl(1);
 	cout << names[white] << "'s hand: ";
-	for (int i = 0; i < blackHandCounter; i++) {
+	for (int i = 0; i < handCounter[white]; i++) {
 		cout << hand[white][i] << " ";
 	}
 	nl(2);
 }
 
-void printBoard(char** B, char hand[][19], int blackHandCounter, int whiteHandCounter, string names[]) {
+void printBoard(char** B, char hand[][19], int handCounter[], string names[]) {
 	system("cls");
 	char f = char(fill);
 	//top-most line
@@ -88,7 +88,7 @@ void printBoard(char** B, char hand[][19], int blackHandCounter, int whiteHandCo
 			cout << f;
 		} nl(1);
 	}
-	printHand(hand, blackHandCounter, whiteHandCounter, names);
+	printHand(hand, handCounter, names);
 }
 
 void updatePromotionBoard(int**& pMap, coordinate sc, coordinate dc) {

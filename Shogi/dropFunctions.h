@@ -1,10 +1,9 @@
 #pragma once
 
-char pickPieceFromHand(int turn, char hand[2][19], int blackHandCounter, int whiteHandCounter) {
-	cout << "Pick a piece from your hand shown above: ";
+char pickPieceFromHand(int turn, char hand[2][19], int handCounter[]) {
+	cout << "Pick a piece number from your hand: ";
 	int pieceNumber;
-	if (turn == black) {do {cin >> pieceNumber;} while (pieceNumber > blackHandCounter);}
-	else {do {cin >> pieceNumber;} while (pieceNumber > blackHandCounter);}
+	do {cin >> pieceNumber;} while (pieceNumber < 1 or pieceNumber > handCounter[turn]);
 	pieceNumber--;
 	return hand[turn][pieceNumber];
 }

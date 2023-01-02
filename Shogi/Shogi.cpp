@@ -20,7 +20,7 @@
 
 void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB, 
         ifstream & loadP, ifstream & newP,string names[], char** &board, char hand[2][19], 
-        int** & pMap, int& turn, int blackHandCounter, int whiteHandCounter) {
+        int** & pMap, int& turn, int handCounter[]) {
     cout << "Welcome to Shogi, black goes first."; nl(1);  cout << "Piece Symbols (black is lowercase);"; nl(2);
     cout << "Bishop+ (Horse) = H"; nl(1); cout << "Rook+ (Dragon) = D"; nl(1); cout << "Golden Gen. = G"; nl(1);
     cout << "Silver Gen. = S"; nl(1); cout << "Bishop = B"; nl(1); cout << "Knight = N"; nl(1); cout << "Lance = L"; nl(1);
@@ -29,19 +29,19 @@ void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB,
     bool modeConfirmed = false;
     while (!modeConfirmed) {
         int mode;
-        mode = 2;
+        mode = 1;
         //cout << "Load old board (1) or new game (2): "; cin >> mode;
         switch (mode) {
         case 1:
             loadBoard(loadB, board, turn);
             loadPromotions(loadP, pMap);
-            loadHand(loadH, hand, blackHandCounter, whiteHandCounter);
+            loadHand(loadH, hand, handCounter);
             modeConfirmed = true;
             break;
         case 2:
             loadBoard(newB, board, turn);
             loadPromotions(newP, pMap);
-            loadHand(newH, hand, blackHandCounter, whiteHandCounter);
+            loadHand(newH, hand, handCounter);
             modeConfirmed = true;
             break;
         default:
@@ -50,7 +50,7 @@ void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB,
     }
     cout << "\tPress any key to continue.";
     //char junk = _getch();
-    printBoard(board, hand, blackHandCounter, whiteHandCounter, names);
+    printBoard(board, hand, handCounter, names);
 }
 
 int main() {
@@ -65,8 +65,6 @@ int main() {
     //___Variable declarations
     char hand[2][19]{'-'};
     int handCounter[2] = {0, 0};
-    int& blackHandCounter = handCounter[black];
-    int& whiteHandCounter = handCounter[white];
     int turn = -1;
     string pNames[2];
     char** board = new char* [size];
@@ -78,19 +76,20 @@ int main() {
         pMap[i] = new int[size];
     }
     
-    init(newBoardReader, newHandReader, loadHandReader, loadBoardReader, loadPromotionMap, newPromotionMap, pNames, board, hand, pMap, turn, blackHandCounter, whiteHandCounter);
+    init(newBoardReader, newHandReader, loadHandReader, loadBoardReader, loadPromotionMap, newPromotionMap, pNames, board, hand, pMap, turn, handCounter);
     
     while (!checkMate(board, turn, hand)) {
         coordinate sc, dc;
         turnMessage(pNames, turn);
         bool drop = false;
-        if (handCounter[turn] != 0) {
+        //___Drop a Piece
+        if (handCounter[turn] > 0) {
             cout << "Drop piece from hand instead of moving? (Y/N): ";
             if (yesNoInput()) {
                 drop = true;
                 char piece;
                 do {
-                    piece = pickPieceFromHand(turn, hand, blackHandCounter, whiteHandCounter);
+                    piece = pickPieceFromHand(turn, hand, handCounter);
                     do {
                         cout << "Click where you want to place it";
                         userInput(dc);
@@ -98,16 +97,17 @@ int main() {
                     tempDrop(board, dc, piece);
                     if (selfCheck(board, turn)) {
                         system("cls"); undoTempDrop(board, dc);
-                        printBoard(board, hand, blackHandCounter, whiteHandCounter, pNames);
+                        printBoard(board, hand, handCounter, pNames);
                         cout << "That move places you in a check, try again!"; nl(1);
                     }
                 } while (selfCheck(board, turn));
                 undoTempDrop(board, dc);
                 realDrop(board, dc, piece);
-                printBoard(board, hand, blackHandCounter, whiteHandCounter, pNames);
+                printBoard(board, hand, handCounter, pNames);
             }
         }
-        if (!drop) {
+        //___Move a Piece
+        if (!drop) { //move a piece
             bool** bMap;
             char* coveredPieces = new char[12];
             do {
@@ -118,13 +118,13 @@ int main() {
                     } while (!validSC(board, sc, turn));
                     bMap = computeHighlight(board, sc, turn);
                     highlight(bMap, board, coveredPieces);
-                    printBoard(board, hand, blackHandCounter, whiteHandCounter, pNames);
+                    printBoard(board, hand, handCounter, pNames);
                     cout << "Click where you want to place it";
                     userInput(dc);
                     if (bMap[dc.ri][dc.ci] == false) {
                         unhighlight(bMap, board, coveredPieces);
                         system("cls");
-                        printBoard(board, hand, blackHandCounter, whiteHandCounter, pNames);
+                        printBoard(board, hand, handCounter, pNames);
                     }
                     if (bMap[dc.ri][dc.ci] and board[dc.ri][dc.ci] == 'O') {
                         unhighlight(bMap, board, coveredPieces);
@@ -133,7 +133,7 @@ int main() {
                         string enemyPieceName = charToPieceName(enemyPiece);
                         cout << "Capture the enemy's " << enemyPieceName << "? (Y/N): ";
                         if (yesNoInput()) {
-                            capturePiece(dc, pMap, hand, turn, enemyPiece, blackHandCounter, whiteHandCounter);
+                            capturePiece(dc, pMap, hand, turn, enemyPiece, handCounter);
                         }
                     }
                 } while (!bMap[dc.ri][dc.ci]);
@@ -141,15 +141,15 @@ int main() {
                 updateBoardTemp(board, sc, dc);
                 if (selfCheck(board, turn)) {
                     system("cls"); undoTempBoardUpdate(board, sc, dc);
-                    printBoard(board, hand, blackHandCounter, whiteHandCounter, pNames);
+                    printBoard(board, hand, handCounter, pNames);
                     cout << "That move places you in a check, try again!"; nl(1);
                 }
             } while (selfCheck(board, turn));
             undoTempBoardUpdate(board, sc, dc);
             updatePromotionBoard(pMap, sc, dc); updateBoard(board, sc, dc);
-            //printBoard(board, hand, blackHandCounter, whiteHandCounter, pNames);
+            printBoard(board, hand, handCounter, pNames);
             promotionCheck(board, dc, turn, pMap);
-            printBoard(board, hand, blackHandCounter, whiteHandCounter, pNames);
+            printBoard(board, hand, handCounter, pNames);
             for (int i = 0; i < size; i++) {
                 delete[] bMap[i];
             }
@@ -164,7 +164,7 @@ int main() {
         turnChange(turn);
         savePromotions(pMapWriter, pMap);
         saveBoard(boardWriter, turn, board);
-        saveHand(handWriter, hand, blackHandCounter, whiteHandCounter);
+        saveHand(handWriter, hand, handCounter);
     }
     gameEndMessage(turn, pNames);
     return 0;

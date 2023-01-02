@@ -1,16 +1,16 @@
 0
 L N S G K G S N L
 - R - - - - - B -
-- P P P p P - - P
+- - - - P P - - P
 P - - - - b - - -
 - - - - - - - - -
-- - p - - - - - -
+- P P P P - - - -
 p p - p p p p - p
 - - - - - - - r -
 l n s g k g s n l
-testing
+testing capture/drop/promote
 
-
+0
 L N S G K G S N L
 - R - - - - - B -
 P P P P P P P P P

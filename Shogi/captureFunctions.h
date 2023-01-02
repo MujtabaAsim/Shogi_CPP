@@ -30,26 +30,28 @@ char intToPiece(int pieceInteger) {
 	return '+';
 }
 
-void capturePiece (coordinate PC, int** &promoMap, char hand[][19], int turn, char piece, int& blackHandCounter, int& whiteHandCounter) {
+void capturePiece (coordinate PC, int** &promoMap, char hand[][19], int turn, char piece, int handCounter[]) {
 	if (turn == black) {
 		if (promoMap[PC.ri][PC.ci] == 0) {
-			hand[black][blackHandCounter++] = piece;
+			hand[black][handCounter[black]] = piece;
 		}
 		else {
 			int pieceInteger = promoMap[PC.ri][PC.ci];
 			char enemyPiece = intToPiece(pieceInteger);
-			hand[black][blackHandCounter++] = enemyPiece;
+			hand[black][handCounter[black]] = enemyPiece;
 		}
+		handCounter[black]++;
 	}
 	else {
 		if (promoMap[PC.ri][PC.ci] == 0) {
-			hand[white][whiteHandCounter++] = piece;
+			hand[white][handCounter[white]] = piece;
 		}
 		else {
 			int pieceInteger = promoMap[PC.ri][PC.ci];
 			char enemyPiece = intToPiece(pieceInteger);
-			hand[white][whiteHandCounter++] = enemyPiece;
+			hand[white][handCounter[white]] = enemyPiece;
 		}
+		handCounter[white]++;
 	}
 	promoMap[PC.ri][PC.ci] = 0;
 }
