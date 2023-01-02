@@ -21,7 +21,7 @@
 void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB, 
         ifstream & loadP, ifstream & newP,string names[], char** &board, char hand[2][19], 
         int** & pMap, int& turn, int handCounter[]) {
-    cout << "Welcome to Shogi, black goes first."; nl(1);  cout << "Piece Symbols (black is lowercase);"; nl(2);
+    cout << "Welcome to Shogi, black goes first."; nl(1);  cout << "Piece Symbols (black is lowercase):-"; nl(2);
     cout << "Bishop+ (Horse) = H"; nl(1); cout << "Rook+ (Dragon) = D"; nl(1); cout << "Golden Gen. = G"; nl(1);
     cout << "Silver Gen. = S"; nl(1); cout << "Bishop = B"; nl(1); cout << "Knight = N"; nl(1); cout << "Lance = L"; nl(1);
     cout << "Pawn = P"; nl(1); cout << "King = K"; nl(1); cout << "Rook = R"; nl(2); names[black] = "Mujtaba"; names[white] = "Asim";
@@ -37,19 +37,21 @@ void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB,
             loadPromotions(loadP, pMap);
             loadHand(loadH, hand, handCounter);
             modeConfirmed = true;
+            cout << "Selected mode - Continue game.";
             break;
         case 2:
             loadBoard(newB, board, turn);
             loadPromotions(newP, pMap);
             loadHand(newH, hand, handCounter);
             modeConfirmed = true;
+            cout << "Selected mode - New game.";
             break;
         default:
             cout << "Invalid input.";
         }
     }
-    cout << "\tPress any key to continue.";
-    //char junk = _getch();
+    cout << "\nPress any key to continue.";
+    char junk = _getch();
     printBoard(board, hand, handCounter, names);
 }
 
@@ -156,6 +158,7 @@ int main() {
             delete[] bMap;
             delete[] coveredPieces;
         }
+        //___Undo Prompt
         cout << "Do you want to undo the last move? (Y/N): ";
         undo = yesNoInput();
         if (undo) {
