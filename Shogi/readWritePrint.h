@@ -11,7 +11,9 @@ void saveBoard(ofstream &writer, int turn, char**b) {
 	}
 }
 
-void saveHand(ofstream &writer, char hand[][19]) {
+void saveHand(ofstream &writer, char hand[][19], int blackHandCounter, int whiteHandCounter) {
+	writer << blackHandCounter << " " << whiteHandCounter;
+	writer << endl;
 	for (int player = 0; player < 2; player++) {
 		for (int pieceNo = 0; pieceNo < 19; pieceNo++) {
 			writer << hand[player][pieceNo] << " ";
@@ -37,7 +39,8 @@ void loadPromotions(ifstream& rdr, int**& map) {
 	}
 }
 
-void loadHand(ifstream& rdr, char hand[][19]) {
+void loadHand(ifstream& rdr, char hand[][19], int & blackHandCounter, int& whiteHandCounter) {
+	rdr >> blackHandCounter >> whiteHandCounter;
 	for (int player = 0; player < 2; player++) {
 		for (int pieceNo = 0; pieceNo < 19; pieceNo++) {
 			rdr >> hand[player][pieceNo];
@@ -72,6 +75,19 @@ void printBoard(char** B) {
 			cout << f;
 		} nl(1);
 	}
+}
+
+void printHand(char hand[][19], int blackHandCounter, int whiteHandCounter) {
+	cout << "Black's hand: ";
+	for (int i = 0; i < blackHandCounter; i++) {
+		cout << hand[black][i] << " ";
+	}
+	nl(1);
+	cout << "White's hand: ";
+	for (int i = 0; i < blackHandCounter; i++) {
+		cout << hand[white][i] << " ";
+	}
+	nl(1);
 }
 
 void updatePromotionBoard(int**& pMap, coordinate sc, coordinate dc) {

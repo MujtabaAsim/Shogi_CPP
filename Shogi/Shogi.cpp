@@ -13,11 +13,13 @@
 #include "highlightingFunctions.h"
 #include "turnFunctions.h"
 #include "basicLegalityFunctions.h"
-#include "check.h"
+#include "checkFunctions.h"
 #include "promotionFunctions.h"
+#include "captureFunctions.h"
 
-void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB, ifstream & loadP, 
-        ifstream & newP,string names[], char** &board, char hand[2][19], int** & pMap, int& turn) {
+void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB, 
+        ifstream & loadP, ifstream & newP,string names[], char** &board, 
+        char hand[2][19], int** & pMap, int& turn, int blackHandCounter, int whiteHandCounter) {
     cout << "Welcome to Shogi, black goes first."; nl(1);
     cout << "Piece Symbols (black is lowercase);"; nl(2);
     cout << "Bishop+ (Horse) = H"; nl(1);
@@ -44,13 +46,14 @@ void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB, 
         switch (mode) {
         case 1:
             loadBoard(loadB, board, turn);
-            loadHand(loadH, hand);
             loadPromotions(loadP, pMap);
+            loadHand(loadH, hand, blackHandCounter, whiteHandCounter);
             modeConfirmed = true;
             break;
         case 2:
             loadBoard(newB, board, turn);
             loadPromotions(newP, pMap);
+            loadHand(newH, hand, blackHandCounter, whiteHandCounter);
             modeConfirmed = true;
             break;
         default:
@@ -72,6 +75,7 @@ int main() {
     
     //____VARIABLE DECLARATIONS: hand/turn/game board/promotion board/gameOver bool
     char hand[2][19]{'-'};
+    int blackHandCounter = 0, whiteHandCounter = 0;
     int turn = -1;
     string pNames[2];
     char** board = new char* [size];
@@ -83,10 +87,10 @@ int main() {
         pMap[i] = new int[size];
     }
     
-    init(newBoardReader, newHandReader, loadHandReader, loadBoardReader, loadPromotionMap, newPromotionMap, pNames, board, hand, pMap, turn);
+    init(newBoardReader, newHandReader, loadHandReader, loadBoardReader, loadPromotionMap, newPromotionMap, pNames, board, hand, pMap, turn, blackHandCounter, whiteHandCounter);
     
     ///*
-    while (checkMate(board, turn) == false) {
+    while (!checkMate(board, turn) or !staleMate(board, turn)) {
         coordinate sc, dc;
         bool** bMap;
         char* coveredPieces = new char[12];
@@ -108,6 +112,16 @@ int main() {
                     system("cls");
                     printBoard(board);
                 }
+                if (bMap[dc.ri][dc.ci] and board[dc.ri][dc.ci] == 'O') {
+                    unhighlight(bMap, board, coveredPieces);
+                    char enemyPiece = board[dc.ri][dc.ci];
+                    highlight(bMap, board, coveredPieces);
+                    string enemyPieceName = charToPieceName(enemyPiece);
+                    cout << "Capture the enemy's " << enemyPieceName << "? (Y/N): ";
+                    if (yesNoInput()) {
+                        capturePiece (dc, pMap, hand, turn, enemyPiece, blackHandCounter, whiteHandCounter);
+                    }
+                }
             } while (!bMap[dc.ri][dc.ci]);
             unhighlight(bMap, board, coveredPieces);
             updateBoardTemp(board, sc, dc);
@@ -120,6 +134,8 @@ int main() {
         undoTempBoardUpdate(board, sc, dc);
         updatePromotionBoard(pMap, sc, dc); updateBoard(board, sc, dc);
         printBoard(board);
+        printHand(hand, blackHandCounter, whiteHandCounter);
+
 
         //implement if here to not run promotionCheck if piece is dropped on board.
         promotionCheck(board, dc, turn, pMap);
@@ -130,7 +146,7 @@ int main() {
         ofstream pMapWriter("loadPromotionMap.txt");
         savePromotions(pMapWriter, pMap);
         saveBoard(boardWriter, turn, board);
-        saveHand(handWriter, hand);
+        saveHand(handWriter, hand, blackHandCounter, whiteHandCounter);
         for (int i = 0; i < size; i++) {
             delete[] bMap[i];
         }

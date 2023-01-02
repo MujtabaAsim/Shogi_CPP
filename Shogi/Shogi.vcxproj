@@ -140,8 +140,9 @@
   <ItemGroup>
     <ClInclude Include="auxiliary.h" />
     <ClInclude Include="basicLegalityFunctions.h" />
-    <ClInclude Include="check.h" />
+    <ClInclude Include="checkFunctions.h" />
     <ClInclude Include="directionalLegality.h" />
+    <ClInclude Include="captureFunctions.h" />
     <ClInclude Include="highlightingFunctions.h" />
     <ClInclude Include="promotionFunctions.h" />
     <ClInclude Include="readWritePrint.h" />

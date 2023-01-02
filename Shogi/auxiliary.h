@@ -32,14 +32,21 @@ bool yesNoInput() {
 	}
 }
 
+void initHand(char hand[2][19]) {
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 19; j++) {
+			hand[i][j] = '-';
+		}
+	}
+}
+
 void getRCfromMB1(int& rpos, int& cpos)
 {
 	HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
 	DWORD Events;
 	INPUT_RECORD InputRecord;
 	SetConsoleMode(hInput, ENABLE_PROCESSED_INPUT | ENABLE_MOUSE_INPUT | ENABLE_EXTENDED_FLAGS);
-	do
-	{
+	do {
 		ReadConsoleInput(hInput, &InputRecord, 1, &Events);
 		if (InputRecord.Event.MouseEvent.dwButtonState == FROM_LEFT_1ST_BUTTON_PRESSED) {
 			cpos = InputRecord.Event.MouseEvent.dwMousePosition.X;
@@ -49,12 +56,9 @@ void getRCfromMB1(int& rpos, int& cpos)
 	} while (true);
 }
 
-void gotoRC(int rpos, int cpos)
-{
-	COORD scrn;
+void gotoRC(int rpos, int cpos) {	
 	HANDLE hOuput = GetStdHandle(STD_OUTPUT_HANDLE);
-	scrn.X = cpos;
-	scrn.Y = rpos;
+	COORD scrn{ cpos, rpos };
 	SetConsoleCursorPosition(hOuput, scrn);
 }
 

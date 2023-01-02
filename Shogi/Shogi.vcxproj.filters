@@ -61,10 +61,13 @@
     <ClInclude Include="auxiliary.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="check.h">
+    <ClInclude Include="checkFunctions.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="promotionFunctions.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="captureFunctions.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
