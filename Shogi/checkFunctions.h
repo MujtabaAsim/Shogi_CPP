@@ -45,7 +45,7 @@ bool selfCheck(char** b, int turn) {
 	return check(b, turn);
 }
 
-bool checkMate(char **b, int turn, char hand [2][19]) {
+bool checkMate(char **b, int turn, char hand [2][19], int handCounter[]) {
 	//1.___SEE IF THE KING CAN SAVE ITSELF
 		if (check(b, turn) == false) { //if, at any given point, the king is NOT in check, then it obviously can't be in a mate.
 			return false;
@@ -66,17 +66,33 @@ bool checkMate(char **b, int turn, char hand [2][19]) {
 			for (int r = 0; r < size; r++) {
 				for (int c = 0; c < size; c++) {
 					coordinate dc { r, c };
-					updateBoard(b, validSCs[i], dc);
+					updateBoardTemp(b, validSCs[i], dc);
 					if (check(b, turn) == false) { //if, after another friendly piece has moved, the king is no longer in check, then it obviously can't be in a mate.
 						undoTempBoardUpdate(b, validSCs[i], dc);
+						delete[] validSCs;
 						return false;
 					}
 					undoTempBoardUpdate(b, validSCs[i], dc);
 				}
 			}
 		}
+		delete[] validSCs;
 	//3.___SEE IF DROPPABLE PIECES CAN SAVE THE KING
-		//droppable piece must not be a pawn!!!
-		
+		for (int r = 0; r < size; r++) {
+			for (int c = 0; c < size; c++) {
+				for (int i = 0; i < handCounter[turn]; i++) {
+					if (hand[turn][i] != 'p' and hand[turn][i] != 'P') { //if piece is not a pawn
+						coordinate dc{ r, c };
+						char piece = hand[turn][i];
+						tempDrop(b, dc, piece);
+						if (check(b, turn) == false) {
+							undoTempDrop(b, dc);
+							return false;
+						}
+						undoTempDrop(b, dc);
+					}
+				}
+			}
+		}
 	return true;
 }

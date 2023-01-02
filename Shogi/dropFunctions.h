@@ -26,7 +26,7 @@ bool ThisPieceHasALegalMove(char** b, char piece, coordinate sc, int turn) {
 	return false;
 }
 
-bool isDropValid(char** b, coordinate dc, int turn, char piece, char hand[2][19]) {
+bool isDropValid(char** b, coordinate dc, int turn, char piece, char hand[2][19], int handCounter[]) {
 	//if out of bounds
 	if (!validDC(b, dc, turn)) {
 		return false;
@@ -41,6 +41,7 @@ bool isDropValid(char** b, coordinate dc, int turn, char piece, char hand[2][19]
 			
 			for (int i = 0; i < size; i++) {
 				if (b[dc.ri][i] == piece) {
+					cout << "This pawn can not be placed in this column because another friendly pawn already exists.";
 					return false;
 				}
 			}
@@ -50,6 +51,7 @@ bool isDropValid(char** b, coordinate dc, int turn, char piece, char hand[2][19]
 		if (piece == 'P') {
 			for (int i = 0; i < size; i++) {
 				if (b[i][dc.ci] == piece) {
+					cout << "This pawn can not be placed in this column because another friendly pawn already exists.";
 					return false;
 				}
 			}
@@ -59,13 +61,15 @@ bool isDropValid(char** b, coordinate dc, int turn, char piece, char hand[2][19]
 	tempDrop(b, dc, piece);
 	if (!ThisPieceHasALegalMove(b, piece, dc, turn)) {
 		undoTempDrop(b, dc);
+		cout << "This piece does not have a valid legal move at that position.";
 		return false;
 	}
 	undoTempDrop(b, dc);
 	//dropped pawn can not give an immediate checkmate
 	tempDrop(b, dc, piece);
-	if (checkMate(b, turn, hand)) {
+	if (checkMate(b, turn, hand, handCounter) and (piece == 'P' or piece == 'p')) {
 		undoTempDrop(b, dc);
+		cout << "Placing this " << charToPieceName(piece) << " at that position will cause a checkmate.";
 		return false;
 	}
 	undoTempDrop(b, dc);

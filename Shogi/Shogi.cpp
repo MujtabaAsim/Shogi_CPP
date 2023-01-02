@@ -78,7 +78,7 @@ int main() {
     
     init(newBoardReader, newHandReader, loadHandReader, loadBoardReader, loadPromotionMap, newPromotionMap, pNames, board, hand, pMap, turn, handCounter);
     
-    while (!checkMate(board, turn, hand)) {
+    while (!checkMate(board, turn, hand, handCounter)) {
         coordinate sc, dc;
         turnMessage(pNames, turn);
         bool drop = false;
@@ -93,7 +93,7 @@ int main() {
                     do {
                         cout << "Click where you want to place it";
                         userInput(dc);
-                    } while (!isDropValid(board, dc, turn, piece, hand));
+                    } while (!isDropValid(board, dc, turn, piece, hand, handCounter));
                     tempDrop(board, dc, piece);
                     if (selfCheck(board, turn)) {
                         system("cls"); undoTempDrop(board, dc);
@@ -121,7 +121,7 @@ int main() {
                     printBoard(board, hand, handCounter, pNames);
                     cout << "Click where you want to place it";
                     userInput(dc);
-                    if (bMap[dc.ri][dc.ci] == false) {
+                    if (!bMap[dc.ri][dc.ci]) {
                         unhighlight(bMap, board, coveredPieces);
                         system("cls");
                         printBoard(board, hand, handCounter, pNames);
