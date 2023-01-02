@@ -29,7 +29,7 @@ void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB,
     bool modeConfirmed = false;
     while (!modeConfirmed) {
         int mode;
-        mode = 1;
+        mode = 2;
         //cout << "Load old board (1) or new game (2): "; cin >> mode;
         switch (mode) {
         case 1:

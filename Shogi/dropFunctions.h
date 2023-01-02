@@ -8,6 +8,12 @@ char pickPieceFromHand(int turn, char hand[2][19], int handCounter[]) {
 	return hand[turn][pieceNumber];
 }
 
+void tempDrop(char** &b, coordinate dc, char piece) {b[dc.ri][dc.ci] = piece;}
+
+void realDrop(char**& b, coordinate dc, char piece) {b[dc.ri][dc.ci] = piece;}
+
+void undoTempDrop(char** &b, coordinate dc) {b[dc.ri][dc.ci] = '-';}
+
 bool ThisPieceHasALegalMove(char** b, char piece, coordinate sc, int turn) {
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
@@ -18,18 +24,6 @@ bool ThisPieceHasALegalMove(char** b, char piece, coordinate sc, int turn) {
 		}
 	}
 	return false;
-}
-
-void tempDrop(char** &b, coordinate dc, char piece) {
-	b[dc.ri][dc.ci] = piece;
-}
-
-void realDrop(char**& b, coordinate dc, char piece) {
-	b[dc.ri][dc.ci] = piece;
-}
-
-void undoTempDrop(char** &b, coordinate dc) {
-	b[dc.ri][dc.ci] = '-';
 }
 
 bool isDropValid(char** b, coordinate dc, int turn, char piece, char hand[2][19]) {
@@ -55,16 +49,19 @@ bool isDropValid(char** b, coordinate dc, int turn, char piece, char hand[2][19]
 	else {
 		if (piece == 'P') {
 			for (int i = 0; i < size; i++) {
-				if (b[dc.ri][i] == piece) {
+				if (b[i][dc.ci] == piece) {
 					return false;
 				}
 			}
 		}
 	}
-	//dropped piece has to have a legal move
+	//dropped piece has to have at least one legal move
+	tempDrop(b, dc, piece);
 	if (!ThisPieceHasALegalMove(b, piece, dc, turn)) {
+		undoTempDrop(b, dc);
 		return false;
 	}
+	undoTempDrop(b, dc);
 	//dropped pawn can not give an immediate checkmate
 	tempDrop(b, dc, piece);
 	if (checkMate(b, turn, hand)) {

@@ -33,23 +33,23 @@ char intToPiece(int pieceInteger) {
 void capturePiece (coordinate PC, int** &promoMap, char hand[][19], int turn, char piece, int handCounter[]) {
 	if (turn == black) {
 		if (promoMap[PC.ri][PC.ci] == 0) {
-			hand[black][handCounter[black]] = piece;
+			hand[black][handCounter[black]] = tolower(piece);
 		}
 		else {
 			int pieceInteger = promoMap[PC.ri][PC.ci];
 			char enemyPiece = intToPiece(pieceInteger);
-			hand[black][handCounter[black]] = enemyPiece;
+			hand[black][handCounter[black]] = tolower(enemyPiece);
 		}
 		handCounter[black]++;
 	}
 	else {
 		if (promoMap[PC.ri][PC.ci] == 0) {
-			hand[white][handCounter[white]] = piece;
+			hand[white][handCounter[white]] = toupper(piece);
 		}
 		else {
 			int pieceInteger = promoMap[PC.ri][PC.ci];
 			char enemyPiece = intToPiece(pieceInteger);
-			hand[white][handCounter[white]] = enemyPiece;
+			hand[white][handCounter[white]] = toupper(enemyPiece);
 		}
 		handCounter[white]++;
 	}
