@@ -1,9 +1,7 @@
 #pragma once
 
 void promotionReplacement(char** &b, coordinate PC) {
-
 	char piece = b[PC.ri][PC.ci];
-
 	switch (piece) {
 	//blacks
 	case 'p':
@@ -122,6 +120,12 @@ void addToPromotionMap(int**& pBoard, coordinate PC, char piece) {
 		pBoard[PC.ri][PC.ci] = 12;
 		break;
 	}
+}
+
+void undoNewPromotion(int**& pBoard, char**&b, coordinate dc) {
+	int originalPiece = pBoard[dc.ri][dc.ci];
+	pBoard[dc.ri][dc.ci] = 0;
+	b[dc.ri][dc.ci] = intToPiece(originalPiece);
 }
 
 void promotionCheck(char** b, coordinate PC, int turn, int** pBoard, bool& promotionHappened) {

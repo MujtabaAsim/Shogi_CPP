@@ -1,35 +1,5 @@
 #pragma once
 
-char intToPiece(int pieceInteger) {
-	switch (pieceInteger) {
-	case 1:
-		return 'p';
-	case 2:
-		return 'n';
-	case 3:
-		return 'l';
-	case 4:
-		return 's';
-	case 5:
-		return 'b';
-	case 6:
-		return 'r';
-	case 7:
-		return 'P';
-	case 8:
-		return 'N';
-	case 9:
-		return 'L';
-	case 10:
-		return 'S';
-	case 11:
-		return 'B';
-	case 12:
-		return 'R';
-	}
-	return '+';
-}
-
 void capturePiece (coordinate PC, int** &promoMap, char hand[][19], int turn, char piece, int handCounter[]) {
 	if (turn == black) {
 		if (promoMap[PC.ri][PC.ci] == 0) {

@@ -156,21 +156,18 @@ int main() {
             delete[] bMap;
             delete[] coveredPieces;
         }
-        
-        //ADD UNDO CODE HERE
         cout << "Do you want to undo the last move? (Y/N): ";
         undo = yesNoInput();
-
         if (undo) {
             if (drop) {
                 //undoDrop();
             }
             else {
-                undoTempBoardUpdate(board, sc, dc);
-                undoPromotionBoard(pMap, sc, dc);
                 if (newPromotionHappened) {
-                    //undoPromotion();
+                    undoNewPromotion(pMap, board, dc);
                 }
+                undoPromotionBoard(pMap, sc, dc);
+                undoTempBoardUpdate(board, sc, dc);
             }
         }
         else {
