@@ -27,6 +27,7 @@ char intToPiece(int pieceInteger) {
 	case 12:
 		return 'R';
 	}
+	return '+';
 }
 
 void capturePiece (coordinate PC, int** &promoMap, char hand[][19], int turn, char piece, int& blackHandCounter, int& whiteHandCounter) {
@@ -57,6 +58,8 @@ string charToPieceName(char enemyPiece) {
 	enemyPiece = tolower(enemyPiece);
 	switch(enemyPiece){
 	case 'p':
+		return "Pawn";
+	case 'g':
 		return "Golden General";
 	case 'h':
 		return "Horse (bishop)";
@@ -75,4 +78,5 @@ string charToPieceName(char enemyPiece) {
 	case 'k':
 		return "King";
 	}
+	return "YOUR CODE IS FUCKED.";
 }

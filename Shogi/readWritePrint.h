@@ -57,7 +57,20 @@ void loadBoard(ifstream& rdr, char**& B, int& turn) {
 	}
 }
 
-void printBoard(char** B) {
+void printHand(char hand[][19], int blackHandCounter, int whiteHandCounter) {
+	cout << "Black's hand: ";
+	for (int i = 0; i < blackHandCounter; i++) {
+		cout << hand[black][i] << " ";
+	}
+	nl(1);
+	cout << "White's hand: ";
+	for (int i = 0; i < blackHandCounter; i++) {
+		cout << hand[white][i] << " ";
+	}
+	nl(1);
+}
+
+void printBoard(char** B, char hand[][19], int blackHandCounter, int whiteHandCounter) {
 	system("cls");
 	char f = char(fill);
 	//top-most line
@@ -75,19 +88,8 @@ void printBoard(char** B) {
 			cout << f;
 		} nl(1);
 	}
-}
-
-void printHand(char hand[][19], int blackHandCounter, int whiteHandCounter) {
-	cout << "Black's hand: ";
-	for (int i = 0; i < blackHandCounter; i++) {
-		cout << hand[black][i] << " ";
-	}
-	nl(1);
-	cout << "White's hand: ";
-	for (int i = 0; i < blackHandCounter; i++) {
-		cout << hand[white][i] << " ";
-	}
-	nl(1);
+	
+	printHand(hand, blackHandCounter, whiteHandCounter);
 }
 
 void updatePromotionBoard(int**& pMap, coordinate sc, coordinate dc) {

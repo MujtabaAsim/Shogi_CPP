@@ -61,8 +61,8 @@ void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB,
         }
     }
     cout << "\tPress any key to continue.";
-    char junk = _getch();
-    printBoard(board);
+    //char junk = _getch();
+    printBoard(board, hand, blackHandCounter, whiteHandCounter);;
 }
 
 int main() {
@@ -104,13 +104,13 @@ int main() {
                 } while (!validSC(board, sc, turn));
                 bMap = computeHighlight(board, sc, turn);
                 highlight(bMap, board, coveredPieces);
-                printBoard(board);
+                printBoard(board, hand, blackHandCounter, whiteHandCounter);
                 cout << "Click where you want to place it."; nl(1);
                 userInput(dc);
                 if (bMap[dc.ri][dc.ci] == false) {
                     unhighlight(bMap, board, coveredPieces);
                     system("cls");
-                    printBoard(board);
+                    printBoard(board, hand, blackHandCounter, whiteHandCounter);
                 }
                 if (bMap[dc.ri][dc.ci] and board[dc.ri][dc.ci] == 'O') {
                     unhighlight(bMap, board, coveredPieces);
@@ -127,18 +127,17 @@ int main() {
             updateBoardTemp(board, sc, dc);
             if (selfCheck(board, turn)) {
                 system("cls");
-                undoTempBoardUpdate(board, sc, dc); printBoard(board);
+                undoTempBoardUpdate(board, sc, dc); printBoard(board, hand, blackHandCounter, whiteHandCounter);
                 cout << "That move places you in a check, try again!"; nl(1);
             }
         } while (selfCheck(board, turn));
         undoTempBoardUpdate(board, sc, dc);
         updatePromotionBoard(pMap, sc, dc); updateBoard(board, sc, dc);
-        printBoard(board);
-        printHand(hand, blackHandCounter, whiteHandCounter);
-
+        printBoard(board, hand, blackHandCounter, whiteHandCounter);
 
         //implement if here to not run promotionCheck if piece is dropped on board.
         promotionCheck(board, dc, turn, pMap);
+        printBoard(board, hand, blackHandCounter, whiteHandCounter);
         turnChange(turn);
         //___Writing to file + highlight map deletion
         ofstream boardWriter("loadBoard.txt");

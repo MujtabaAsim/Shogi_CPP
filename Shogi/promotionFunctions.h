@@ -1,6 +1,5 @@
 #pragma once
 
-
 void promotionReplacement(char** &b, coordinate PC) {
 
 	char piece = b[PC.ri][PC.ci];
@@ -125,7 +124,7 @@ void addToPromotionMap(int**& pBoard, coordinate PC, char piece) {
 	}
 }
 
-void  promotionCheck(char** b, coordinate PC, int turn, int** pBoard) {
+void promotionCheck(char** b, coordinate PC, int turn, int** pBoard) {
 	char piece = b[PC.ri][PC.ci];
 	
 	if (turn == black) {
@@ -162,5 +161,4 @@ void  promotionCheck(char** b, coordinate PC, int turn, int** pBoard) {
 			}
 		}
 	}
-	printBoard(b);
 }

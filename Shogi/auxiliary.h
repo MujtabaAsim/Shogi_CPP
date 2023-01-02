@@ -57,8 +57,9 @@ void getRCfromMB1(int& rpos, int& cpos)
 }
 
 void gotoRC(int rpos, int cpos) {	
+	COORD scrn{0, 0};
 	HANDLE hOuput = GetStdHandle(STD_OUTPUT_HANDLE);
-	COORD scrn{ cpos, rpos };
+	scrn.X = cpos; scrn.Y = rpos;
 	SetConsoleCursorPosition(hOuput, scrn);
 }
 
