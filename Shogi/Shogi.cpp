@@ -177,9 +177,9 @@ int main() {
             cout << "Do you want to undo the last move? (Y/N): ";
             undo = yesNoInput();
             if (undo) {
-                board = undoStack[undoStackCounter].boardState;
-                pMap = undoStack[undoStackCounter].promotionMap;
-                hand = undoStack[undoStackCounter].handState;
+                copyBoard(board, undoStack[undoStackCounter].boardState);
+                copyMap(pMap, undoStack[undoStackCounter].promotionMap);
+                copyHand(hand, undoStack[undoStackCounter].handState);
                 undoStackCounter--;
                 printBoard(board, hand, handCounter, pNames);
             }

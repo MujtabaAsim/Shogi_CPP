@@ -55,7 +55,7 @@ void copyHand(char recieveArray[][cap], char giveArray[][cap]) {
 	}
 }
 
-void copyBoard(char** recieveBoard, char** giveBoard) {
+void copyBoard(char** &recieveBoard, char** &giveBoard) {
 	for (int r = 0; r < size; r++) {
 		for (int c = 0; c < size; c++) {
 			recieveBoard[r][c] = giveBoard[r][c];
@@ -63,7 +63,7 @@ void copyBoard(char** recieveBoard, char** giveBoard) {
 	}
 }
 
-void copyMap(int** recievePromoMap, int** givePromoMap) {
+void copyMap(int** &recievePromoMap, int** &givePromoMap) {
 	for (int r = 0; r < size; r++) {
 		for (int c = 0; c < size; c++) {
 			recievePromoMap[r][c] = givePromoMap[r][c];
