@@ -21,10 +21,10 @@
 void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB, 
         ifstream & loadP, ifstream & newP,string names[], char** &board, char hand[2][cap], 
         int** & pMap, int& turn, int handCounter[]) {
-    cout << "Welcome to Shogi, black goes first."; nl(1);  cout << "Piece Symbols (black is lowercase):-"; nl(2);
+    cout << "BSCS22012_Shogi | Black goes first."; nl(1);  cout << "Piece Symbols (White is uppercase):-"; nl(2);
     cout << "Bishop+ (Horse) = H"; nl(1); cout << "Rook+ (Dragon) = D"; nl(1); cout << "Golden Gen. = G"; nl(1);
     cout << "Silver Gen. = S"; nl(1); cout << "Bishop = B"; nl(1); cout << "Knight = N"; nl(1); cout << "Lance = L"; nl(1);
-    cout << "Pawn = P"; nl(1); cout << "King = K"; nl(1); cout << "Rook = R"; nl(2); names[black] = "Mujtaba"; names[white] = "Asim";
+    cout << "Pawn = P"; nl(1); cout << "King = K"; nl(1); cout << "Rook = R"; nl(2); names[black] = "Mujtaba"; names[white] = "BSCS22012";
     //cout << "Black's Name: "; cin >> names[black]; cout << "White's Name: "; cin >> names[white];
     bool modeConfirmed = false;
     while (!modeConfirmed) {
@@ -86,6 +86,11 @@ int main() {
         coordinate sc, dc; int pieceIndex;
         turnMessage(pNames, turn);
         bool drop = false, undo = false, promotionHappened = false, captureHappened = false;
+
+        copyBoard(undoStack[undoStackCounter].boardState, board);
+        copyMap(undoStack[undoStackCounter].promotionMap, pMap);
+        copyHand(undoStack[undoStackCounter].handState, hand);
+
         //___Drop a Piece
         if (handCounter[turn] > 0) {
             cout << "Drop piece from hand instead of moving? (Y/N): ";
@@ -164,6 +169,7 @@ int main() {
             delete[] coveredPieces;
         }
         
+        //___Writers
         ofstream boardWriter("loadBoard.txt");
         ofstream handWriter("loadHand.txt");
         ofstream pMapWriter("loadPromotionMap.txt");
@@ -173,6 +179,7 @@ int main() {
         turnChange(turn);
         undoStackCounter++;
         
+        //Undo
         do {
             cout << "Do you want to undo the last move? (Y/N): ";
             undo = yesNoInput();
@@ -183,10 +190,9 @@ int main() {
                 undoStackCounter--;
                 printBoard(board, hand, handCounter, pNames);
             }
-        } while (undo);
+        } while (undo and undoStackCounter > 0);
     }
        
     gameEndMessage(turn, pNames);
     return _getch();
 }
-
