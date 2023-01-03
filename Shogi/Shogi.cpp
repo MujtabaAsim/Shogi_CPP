@@ -82,15 +82,15 @@ int main() {
     
     init(newBoardReader, newHandReader, loadHandReader, loadBoardReader, loadPromotionMap, newPromotionMap, pNames, board, hand, pMap, turn, handCounter);
     
-    while (!checkMate(board, turn, hand, handCounter)) {
+    while (checkMate(board, turn, hand, handCounter) == false) {
         coordinate sc, dc; int pieceIndex;
         turnMessage(pNames, turn);
         bool drop = false, undo = false, promotionHappened = false, captureHappened = false;
-
+        
         copyBoard(undoStack[undoStackCounter].boardState, board);
         copyMap(undoStack[undoStackCounter].promotionMap, pMap);
         copyHand(undoStack[undoStackCounter].handState, hand);
-
+        
         //___Drop a Piece
         if (handCounter[turn] > 0) {
             cout << "Drop piece from hand instead of moving? (Y/N): ";

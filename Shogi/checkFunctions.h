@@ -54,28 +54,40 @@ bool checkMate(char **b, int turn, char hand [2][cap], int handCounter[]) {
 	//2.___SEE IF OTHER PIECES CAN SAVE THE KING
 		coordinate* validSCs; int NumOfSCs = 0;
 		validSCs = new coordinate[20];
+		turnChange(turn);
 		for (int r = 0; r < size; r++) {
 			for (int c = 0; c < size; c++) {
 				coordinate sc { r, c };
-				if (validSC(b, sc, turn)) {
-					validSCs[NumOfSCs++] = sc;
+				if (turn == black) {
+					if (validSC(b, sc, turn) and b[sc.ri][sc.ci] != 'k') {
+						validSCs[NumOfSCs++] = sc;
+					}
 				}
+				else {
+					if (validSC(b, sc, turn) and b[sc.ri][sc.ci] != 'K') {
+						validSCs[NumOfSCs++] = sc;
+					}
+				}
+				
 			}
 		}
 		for (int i = 0; i < NumOfSCs; i++) {
 			for (int r = 0; r < size; r++) {
 				for (int c = 0; c < size; c++) {
 					coordinate dc { r, c };
-					updateBoardTemp(b, validSCs[i], dc);
-					if (check(b, turn) == false) { //if, after another friendly piece has moved, the king is no longer in check, then it obviously can't be in a mate.
+					if (isMoveLegal(b, validSCs[i], dc, turn)) {
+						updateBoardTemp(b, validSCs[i], dc);
+						if (check(b, turn) == false) { //if, after another friendly piece has moved, the king is no longer in check, then it obviously can't be in a mate.
+							undoTempBoardUpdate(b, validSCs[i], dc);
+							delete[] validSCs;
+							return false;
+						}
 						undoTempBoardUpdate(b, validSCs[i], dc);
-						delete[] validSCs;
-						return false;
 					}
-					undoTempBoardUpdate(b, validSCs[i], dc);
 				}
 			}
 		}
-		delete[] validSCs;	
+		delete[] validSCs;
+
 	return true;
 }
