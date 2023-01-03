@@ -101,12 +101,6 @@ void updatePromotionBoard(int**& pMap, coordinate sc, coordinate dc) {
 	pMap[dc.ri][dc.ci] = pieceValue;
 }
 
-void undoPromotionBoard(int**& pMap, coordinate sc, coordinate dc) {
-	int pieceValue = pMap[dc.ri][dc.ci];
-	pMap[dc.ri][dc.ci] = 0;
-	pMap[sc.ri][sc.ci] = pieceValue;
-}
-
 void updateBoardTemp(char**& board, coordinate sc, coordinate dc) {
 	char piece = board[sc.ri][sc.ci];
 	board[sc.ri][sc.ci] = '-';
@@ -133,11 +127,6 @@ void undoTempDrop(char**& b, coordinate dc) { b[dc.ri][dc.ci] = '-'; }
 
 void removePieceFromHand(char hand[2][cap], int pieceNumber, int turn) {
 	hand[turn][pieceNumber] = '-';
-}
-
-void undoDrop(char**& b, coordinate dc, char hand[2][cap], int handCounter[], int turn, int pieceIndex) {
-	hand[turn][pieceIndex] = b[dc.ri][dc.ci];
-	b[dc.ri][dc.ci] = '-';
 }
 
 void userInput_Mouse(coordinate& position) {

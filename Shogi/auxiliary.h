@@ -47,16 +47,28 @@ void initHand(char hand[2][cap]) {
 	}
 }
 
-void copyHand() {
-
+void copyHand(char recieveArray[][cap], char giveArray[][cap]) {
+	for (int r = 0; r < 2; r++) {
+		for (int c = 0; c < cap; c++) {
+			recieveArray[r][c] = giveArray[r][c];
+		}
+	}
 }
 
-void copyBoard() {
-
+void copyBoard(char** recieveBoard, char** giveBoard) {
+	for (int r = 0; r < size; r++) {
+		for (int c = 0; c < size; c++) {
+			recieveBoard[r][c] = giveBoard[r][c];
+		}
+	}
 }
 
-void copyMap() {
-
+void copyMap(int** recievePromoMap, int** givePromoMap) {
+	for (int r = 0; r < size; r++) {
+		for (int c = 0; c < size; c++) {
+			recievePromoMap[r][c] = givePromoMap[r][c];
+		}
+	}
 }
 
 char intToPiece(int pieceInteger) {
