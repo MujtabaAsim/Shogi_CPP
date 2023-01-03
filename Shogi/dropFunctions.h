@@ -36,7 +36,7 @@ bool isDropValid(char** b, coordinate dc, int turn, char piece, char hand[2][cap
 		if (piece == 'p') {
 			
 			for (int i = 0; i < size; i++) {
-				if (b[dc.ri][i] == piece) {
+				if (b[i][dc.ci] == piece) {
 					cout << "This pawn can not be placed in this column because another friendly pawn already exists.";
 					return false;
 				}
