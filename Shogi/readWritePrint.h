@@ -11,11 +11,11 @@ void saveBoard(ofstream &writer, int turn, char**b) {
 	}
 }
 
-void saveHand(ofstream &writer, char hand[][19], int handCounter[]) {
+void saveHand(ofstream &writer, char hand[][cap], int handCounter[]) {
 	writer << handCounter[black] << " " << handCounter[white];
 	writer << endl;
 	for (int player = 0; player < 2; player++) {
-		for (int pieceNo = 0; pieceNo < 19; pieceNo++) {
+		for (int pieceNo = 0; pieceNo < cap; pieceNo++) {
 			writer << hand[player][pieceNo] << " ";
 		}
 		writer << endl;
@@ -39,10 +39,10 @@ void loadPromotions(ifstream& rdr, int**& map) {
 	}
 }
 
-void loadHand(ifstream& rdr, char hand[][19], int handCounter[]) {
+void loadHand(ifstream& rdr, char hand[][cap], int handCounter[]) {
 	rdr >> handCounter[black] >> handCounter[white];
 	for (int player = 0; player < 2; player++) {
-		for (int pieceNo = 0; pieceNo < 19; pieceNo++) {
+		for (int pieceNo = 0; pieceNo < cap; pieceNo++) {
 			rdr >> hand[player][pieceNo];
 		}
 	}
@@ -57,20 +57,24 @@ void loadBoard(ifstream& rdr, char**& B, int& turn) {
 	}
 }
 
-void printHand(char hand[][19], int handCounter[], string names[]) {
+void printHand(char hand[][cap], int handCounter[], string names[]) {
 	cout << names[black]<<"'s hand: ";
-	for (int i = 0; i < handCounter[black]; i++) {
-		cout << hand[black][i] << " ";
+	for (int i = 0; i < cap; i++) {
+		if (hand[black][i] != '-') {
+			cout << hand[black][i] << " ";
+		}
 	}
 	nl(1);
 	cout << names[white] << "'s hand: ";
-	for (int i = 0; i < handCounter[white]; i++) {
-		cout << hand[white][i] << " ";
+	for (int i = 0; i < cap; i++) {
+		if (hand[white][i] != '-') {
+			cout << hand[white][i] << " ";
+		}
 	}
 	nl(2);
 }
 
-void printBoard(char** B, char hand[][19], int handCounter[], string names[]) {
+void printBoard(char** B, char hand[][cap], int handCounter[], string names[]) {
 	system("cls");
 	char f = char(fill);
 	//top-most line
@@ -126,6 +130,15 @@ void tempDrop(char**& b, coordinate dc, char piece) { b[dc.ri][dc.ci] = piece; }
 void realDrop(char**& b, coordinate dc, char piece) { b[dc.ri][dc.ci] = piece; }
 
 void undoTempDrop(char**& b, coordinate dc) { b[dc.ri][dc.ci] = '-'; }
+
+void removePieceFromHand(char hand[2][cap], int pieceNumber, int turn) {
+	hand[turn][pieceNumber] = '-';
+}
+
+void undoDrop(char**& b, coordinate dc, char hand[2][cap], int handCounter[], int turn, int pieceIndex) {
+	hand[turn][pieceIndex] = b[dc.ri][dc.ci];
+	b[dc.ri][dc.ci] = '-';
+}
 
 void userInput_Mouse(coordinate& position) {
 	getRCfromMB1(position.ri, position.ci);

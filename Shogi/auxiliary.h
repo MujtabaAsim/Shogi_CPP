@@ -4,12 +4,19 @@ enum { black = 0, white = 1 }; //black goes first in Shogi
 
 #define size 9
 #define fill -37
+#define cap 50
 
 using namespace std;
 
 struct coordinate {
 	int ri;
 	int ci;
+};
+
+struct gameState {
+	char handState[2][cap];
+	char** boardState;
+	int** promotionMap;
 };
 
 void nl(int i) {
@@ -32,12 +39,24 @@ bool yesNoInput() {
 	}
 }
 
-void initHand(char hand[2][19]) {
+void initHand(char hand[2][cap]) {
 	for (int i = 0; i < 2; i++) {
-		for (int j = 0; j < 19; j++) {
+		for (int j = 0; j < cap; j++) {
 			hand[i][j] = '-';
 		}
 	}
+}
+
+void copyHand() {
+
+}
+
+void copyBoard() {
+
+}
+
+void copyMap() {
+
 }
 
 char intToPiece(int pieceInteger) {

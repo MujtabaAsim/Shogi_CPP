@@ -1,12 +1,13 @@
 #pragma once
 #include "captureFunctions.h"
 
-char pickPieceFromHand(int turn, char hand[2][19], int handCounter[]) {
+char pickPieceFromHand(int turn, char hand[2][cap], int handCounter[], int &pieceIndex) {
 	cout << "Pick a piece number from your hand: ";
 	int pieceNumber;
 	do {cin >> pieceNumber;} while (pieceNumber < 1 or pieceNumber > handCounter[turn]);
 	pieceNumber--;
 	return hand[turn][pieceNumber];
+	pieceIndex = pieceNumber;
 }
 
 bool ThisPieceHasALegalMove(char** b, char piece, coordinate sc, int turn) {
@@ -21,7 +22,7 @@ bool ThisPieceHasALegalMove(char** b, char piece, coordinate sc, int turn) {
 	return false;
 }
 
-bool isDropValid(char** b, coordinate dc, int turn, char piece, char hand[2][19], int handCounter[]) {
+bool isDropValid(char** b, coordinate dc, int turn, char piece, char hand[2][cap], int handCounter[]) {
 	//if out of bounds
 	if (!validDC(b, dc, turn)) {
 		return false;

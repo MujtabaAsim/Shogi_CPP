@@ -19,7 +19,7 @@
 #include "captureFunctions.h"
 
 void init(ifstream & newB, ifstream & newH, ifstream & loadH, ifstream & loadB, 
-        ifstream & loadP, ifstream & newP,string names[], char** &board, char hand[2][19], 
+        ifstream & loadP, ifstream & newP,string names[], char** &board, char hand[2][cap], 
         int** & pMap, int& turn, int handCounter[]) {
     cout << "Welcome to Shogi, black goes first."; nl(1);  cout << "Piece Symbols (black is lowercase):-"; nl(2);
     cout << "Bishop+ (Horse) = H"; nl(1); cout << "Rook+ (Dragon) = D"; nl(1); cout << "Golden Gen. = G"; nl(1);
@@ -65,7 +65,7 @@ int main() {
     ifstream loadPromotionMap("loadPromotionMap");
     
     //___Variable declarations
-    char hand[2][19]{'-'};
+    char hand[2][cap]{'-'};
     int handCounter[2] = {0, 0};
     int turn = -1;
     string pNames[2];
@@ -77,13 +77,15 @@ int main() {
     for (int i = 0; i < size; i++) {
         pMap[i] = new int[size];
     }
+
+    gameState undoStack[cap]{}; int undoStackCounter = 0;
     
     init(newBoardReader, newHandReader, loadHandReader, loadBoardReader, loadPromotionMap, newPromotionMap, pNames, board, hand, pMap, turn, handCounter);
     
     while (!checkMate(board, turn, hand, handCounter)) {
-        coordinate sc, dc;
+        coordinate sc, dc; int pieceIndex;
         turnMessage(pNames, turn);
-        bool drop = false, undo = false, newPromotionHappened = false;
+        bool drop = false, undo = false, promotionHappened = false, captureHappened = false;
         //___Drop a Piece
         if (handCounter[turn] > 0) {
             cout << "Drop piece from hand instead of moving? (Y/N): ";
@@ -91,7 +93,7 @@ int main() {
                 drop = true;
                 char piece;
                 do {
-                    piece = pickPieceFromHand(turn, hand, handCounter);
+                    piece = pickPieceFromHand(turn, hand, handCounter, pieceIndex);
                     do {
                         cout << "Click where you want to place it";
                         userInput(dc);
@@ -105,9 +107,11 @@ int main() {
                 } while (selfCheck(board, turn));
                 undoTempDrop(board, dc);
                 realDrop(board, dc, piece);
+                removePieceFromHand(hand, pieceIndex, turn);
                 printBoard(board, hand, handCounter, pNames);
             }
         }
+        
         //___Move a Piece
         if (!drop) { //move a piece
             bool** bMap;
@@ -136,6 +140,7 @@ int main() {
                         cout << "Capture the enemy's " << enemyPieceName << "? (Y/N): ";
                         if (yesNoInput()) {
                             capturePiece(dc, pMap, hand, turn, enemyPiece, handCounter);
+                            captureHappened = true;
                         }
                     }
                 } while (!bMap[dc.ri][dc.ci]);
@@ -150,7 +155,7 @@ int main() {
             undoTempBoardUpdate(board, sc, dc);
             updatePromotionBoard(pMap, sc, dc); updateBoard(board, sc, dc);
             printBoard(board, hand, handCounter, pNames);
-            promotionCheck(board, dc, turn, pMap, newPromotionHappened);
+            promotionCheck(board, dc, turn, pMap, promotionHappened);
             printBoard(board, hand, handCounter, pNames);
             for (int i = 0; i < size; i++) {
                 delete[] bMap[i];
@@ -158,32 +163,29 @@ int main() {
             delete[] bMap;
             delete[] coveredPieces;
         }
-        //___Undo Prompt
-        cout << "Do you want to undo the last move? (Y/N): ";
-        undo = yesNoInput();
-        if (undo) {
-            if (drop) {
-                //undoDrop();
+        
+        ofstream boardWriter("loadBoard.txt");
+        ofstream handWriter("loadHand.txt");
+        ofstream pMapWriter("loadPromotionMap.txt");
+        savePromotions(pMapWriter, pMap);
+        saveBoard(boardWriter, turn, board);
+        saveHand(handWriter, hand, handCounter);
+        turnChange(turn);
+        undoStackCounter++;
+        
+        do {
+            cout << "Do you want to undo the last move? (Y/N): ";
+            undo = yesNoInput();
+            if (undo) {
+                board = undoStack[undoStackCounter].boardState;
+                pMap = undoStack[undoStackCounter].promotionMap;
+                hand = undoStack[undoStackCounter].handState;
+                undoStackCounter--;
+                printBoard(board, hand, handCounter, pNames);
             }
-            else {
-                if (newPromotionHappened) {
-                    undoNewPromotion(pMap, board, dc);
-                }
-                undoPromotionBoard(pMap, sc, dc);
-                undoTempBoardUpdate(board, sc, dc);
-            }
-        }
-        else {
-            //___Writing + Deletion
-            ofstream boardWriter("loadBoard.txt");
-            ofstream handWriter("loadHand.txt");
-            ofstream pMapWriter("loadPromotionMap.txt");
-            turnChange(turn);
-            savePromotions(pMapWriter, pMap);
-            saveBoard(boardWriter, turn, board);
-            saveHand(handWriter, hand, handCounter);
-        }
+        } while (undo);
     }
+       
     gameEndMessage(turn, pNames);
     return _getch();
 }

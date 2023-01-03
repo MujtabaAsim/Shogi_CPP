@@ -45,7 +45,7 @@ bool selfCheck(char** b, int turn) {
 	return check(b, turn);
 }
 
-bool checkMate(char **b, int turn, char hand [2][19], int handCounter[]) {
+bool checkMate(char **b, int turn, char hand [2][cap], int handCounter[]) {
 	//1.___SEE IF THE KING CAN SAVE ITSELF
 		if (check(b, turn) == false) { //if, at any given point, the king is NOT in check, then it obviously can't be in a mate.
 			return false;

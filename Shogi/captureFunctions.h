@@ -1,6 +1,6 @@
 #pragma once
 
-void capturePiece (coordinate PC, int** &promoMap, char hand[][19], int turn, char piece, int handCounter[]) {
+void capturePiece (coordinate PC, int** &promoMap, char hand[][cap], int turn, char piece, int handCounter[]) {
 	if (turn == black) {
 		if (promoMap[PC.ri][PC.ci] == 0) {
 			hand[black][handCounter[black]] = tolower(piece);
