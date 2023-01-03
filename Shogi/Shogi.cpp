@@ -177,7 +177,6 @@ int main() {
         saveBoard(boardWriter, turn, board);
         saveHand(handWriter, hand, handCounter);
         turnChange(turn);
-        undoStackCounter++;
         
         //Undo
         do {
@@ -191,6 +190,7 @@ int main() {
                 printBoard(board, hand, handCounter, pNames);
             }
         } while (undo and undoStackCounter > 0);
+        undoStackCounter++;
     }
        
     gameEndMessage(turn, pNames);
